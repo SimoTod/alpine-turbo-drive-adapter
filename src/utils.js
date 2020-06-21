@@ -4,7 +4,7 @@ export function walk (el, callback) {
   let node = el.firstElementChild
 
   while (node) {
-    this.walk(node, callback)
+    walk(node, callback)
 
     node = node.nextElementSibling
   }
