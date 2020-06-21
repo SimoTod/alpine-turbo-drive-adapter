@@ -7,12 +7,12 @@ export default {
   output: [
     {
       name: 'Alpine',
-      file: 'dist/alpine-turnolinks-bridge.js',
+      file: 'dist/alpine-turbolinks-bridge.js',
       format: 'umd'
     },
     {
       name: 'Alpine',
-      file: 'dist/alpine-turnolinks-bridge.es.js',
+      file: 'dist/alpine-turbolinks-bridge.esm.js',
       format: 'es'
     }
   ],

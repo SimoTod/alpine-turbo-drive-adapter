@@ -1,8 +1,9 @@
 {
   "name": "alpine-turbolinks-bridge",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "dist/alpine-turbolinks-bridge.js",
+  "module": "dist/alpine-turbolinks-bridge.esm.js",
   "directories": {
     "example": "examples"
   },
@@ -41,7 +42,6 @@
   "lint-staged": {
     "*.js": [
       "eslint --fix",
-      "npm run build",
       "git add"
     ]
   }
