@@ -6,7 +6,7 @@ export default class Bridge {
   }
 
   setAlpine (reference) {
-    if (!reference.version || isValidVersion('2.4.0', reference.version)) {
+    if (!reference.version || !isValidVersion('2.4.0', reference.version)) {
       throw new Error('Invalid Alpine version. Please use Alpine 2.4.0 or above')
     }
     this.alpine = reference
