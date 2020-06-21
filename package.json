@@ -1,0 +1,48 @@
+{
+  "name": "alpine-turbolinks-bridge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "watch": "rollup -c -w",
+    "build": "rollup -c",
+    "lint": "eslint src",
+    "lint-fix": "eslint src --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "simo.todaro@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.10.3",
+    "@babel/preset-env": "^7.10.3",
+    "eslint": "^7.3.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "rollup": "^2.16.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-filesize": "^9.0.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "semver": "^7.3.2"
+  },
+  "dependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "npm run build",
+      "git add"
+    ]
+  }
+}
