@@ -1,3 +1,3 @@
-# Alpine Turbolinks bridge
+# Alpine Turbolinks Adapter
 
 Coming soon
