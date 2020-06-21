@@ -12,6 +12,18 @@
       node = node.nextElementSibling;
     }
   }
+  function isValidVersion(required, current) {
+    const requiredArray = required.split('.');
+    const currentArray = current.split('.');
+
+    for (let i = 0; i < requiredArray.length; i++) {
+      if (!currentArray[i] || currentArray[i] < requiredArray[i]) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 
   class Bridge {
     constructor() {
@@ -19,9 +31,7 @@
     }
 
     setAlpine(reference) {
-      const semverLt = require('semver/functions/lt');
-
-      if (!reference.version || semverLt(reference.version, '2.4.0')) {
+      if (!reference.version || isValidVersion('2.4.0', reference.version)) {
         throw new Error('Invalid Alpine version. Please use Alpine 2.4.0 or above');
       }
 

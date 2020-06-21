@@ -1,4 +1,4 @@
-import { walk } from './utils'
+import { walk, isValidVersion } from './utils'
 
 export default class Bridge {
   constructor () {
@@ -6,8 +6,7 @@ export default class Bridge {
   }
 
   setAlpine (reference) {
-    const semverLt = require('semver/functions/lt')
-    if (!reference.version || semverLt(reference.version, '2.4.0')) {
+    if (!reference.version || isValidVersion('2.4.0', reference.version)) {
       throw new Error('Invalid Alpine version. Please use Alpine 2.4.0 or above')
     }
     this.alpine = reference
