@@ -1,12 +1,16 @@
 {
-  "name": "alpine-turbolinks-bridge",
+  "name": "alpine-turbolinks-adapter",
   "version": "0.1.0",
-  "description": "",
-  "main": "dist/alpine-turbolinks-bridge.js",
-  "module": "dist/alpine-turbolinks-bridge.esm.js",
+  "description": "Bridge library to enable full support for Alpine components in pages using Turbolinks",
+  "main": "dist/alpine-turbolinks-adapter.js",
+  "module": "dist/alpine-turbolinks-adapter.esm.js",
   "directories": {
     "example": "examples"
   },
+  "keywords": [
+    "alpinejs",
+    "turbolinks"
+  ],
   "scripts": {
     "watch": "rollup -c -w",
     "build": "rollup -c",
@@ -17,19 +21,19 @@
   "author": "simo.todaro@gmail.com",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.10.3",
-    "@babel/preset-env": "^7.10.3",
-    "eslint": "^7.3.0",
+    "@babel/core": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
+    "eslint": "^7.4.0",
     "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
-    "rollup": "^2.16.1",
+    "rollup": "^2.22.0",
     "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-filesize": "^9.0.1",
+    "rollup-plugin-filesize": "^9.0.2",
     "rollup-plugin-node-resolve": "^5.2.0"
   },
   "dependencies": {},
