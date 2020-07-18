@@ -20,11 +20,9 @@ jobs:
       - name: Set up git email
         run: git config --global user.name ${GITHUB_ACTOR}@users.noreply.github.com
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
       - name: Build dist folder
-        run: yarn build
-      - name: Run test suite
-        run: yarn test
+        run: npm run build
       - name: Commit dist folder if needed #it fails if nothing has changed so we allow an error
         run: git commit -am 'Rebuild dist'
         continue-on-error: true
