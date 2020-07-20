@@ -2,5 +2,5 @@
   "video": false,
   "pluginsFile": false,
   "supportFile": false,
-  "integrationFolder": "tests"
+  "integrationFolder": "tests/integration"
 }

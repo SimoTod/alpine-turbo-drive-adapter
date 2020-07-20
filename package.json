@@ -16,7 +16,9 @@
     "build": "rollup -c",
     "lint": "eslint src",
     "lint-fix": "eslint src --fix",
-    "test": "npx cypress run"
+    "pretest": "http-server &",
+    "test": "npx cypress run || :",
+    "posttest": "pkill -f http-server"
   },
   "author": "simo.todaro@gmail.com",
   "license": "MIT",
@@ -30,6 +32,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
+    "http-server": "^0.12.3",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
     "rollup": "^2.22.0",
