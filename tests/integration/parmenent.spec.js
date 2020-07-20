@@ -1,7 +1,7 @@
 /* global describe, it, cy */
 
-describe('My First Test', () => {
-  it('Gets, types and asserts', () => {
+describe('data-turbolinks-permanent elemenys', () => {
+  it('keep the state when navigating to a new page', () => {
     cy.visit('http://127.0.0.1:8080/tests/res/permanent/index.html')
 
     // Update foo
