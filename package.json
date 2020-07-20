@@ -16,13 +16,14 @@
     "build": "rollup -c",
     "lint": "eslint src",
     "lint-fix": "eslint src --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx cypress run"
   },
   "author": "simo.todaro@gmail.com",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.10.5",
     "@babel/preset-env": "^7.10.4",
+    "cypress": "^4.10.0",
     "eslint": "^7.4.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.22.0",
