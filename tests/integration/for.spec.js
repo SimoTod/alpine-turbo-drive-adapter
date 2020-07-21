@@ -2,7 +2,7 @@
 
 describe('x-for directives', () => {
   it('should not add duplicate items when navigating away and back to the page', () => {
-    cy.visit('http://127.0.0.1:8080/tests/res/for/index.html')
+    cy.visit('/tests/res/for/index.html')
 
     // Check component works correctly
     cy.get('div').find('span').should('have.length', 2)

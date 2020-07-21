@@ -2,7 +2,7 @@
 
 describe('x-if directives', () => {
   it('should not add a duplicate item when navigating away and back to the page', () => {
-    cy.visit('http://127.0.0.1:8080/tests/res/if/index.html')
+    cy.visit('/tests/res/if/index.html')
 
     // Check component works correctly
     cy.get('div').find('span').should('have.length', 1)

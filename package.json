@@ -17,8 +17,9 @@
     "lint": "eslint src",
     "lint-fix": "eslint src --fix",
     "pretest": "http-server &",
-    "test": "npx cypress run || :",
-    "posttest": "pkill -f http-server"
+    "test": "cypress run || a=$?",
+    "posttest": "pkill -f http-server && `exit $a`",
+    "ci": "start-server-and-test 'http-server -c-1 --silent' 8080 'npx cypress run'"
   },
   "author": "simo.todaro@gmail.com",
   "license": "MIT",

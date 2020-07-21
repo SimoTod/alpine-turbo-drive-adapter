@@ -2,7 +2,7 @@
 
 describe('data-turbolinks-permanent elements', () => {
   it('keep the state when navigating to a new page', () => {
-    cy.visit('http://127.0.0.1:8080/tests/res/permanent/index.html')
+    cy.visit('/tests/res/permanent/index.html')
 
     // Update foo
     cy.get('span').contains(/^bar$/)
@@ -22,7 +22,7 @@ describe('data-turbolinks-permanent elements', () => {
   })
 
   it('do not log errors when containing x-for and navigating to a new page', () => {
-    cy.visit('http://127.0.0.1:8080/tests/res/permanent-for/index.html')
+    cy.visit('/tests/res/permanent-for/index.html')
 
     // Check component works correctly
     cy.get('div').find('span').should('have.length', 2)
