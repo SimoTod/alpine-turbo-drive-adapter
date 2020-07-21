@@ -17,7 +17,7 @@
     "lint": "eslint src",
     "lint-fix": "eslint src --fix",
     "pretest": "http-server &",
-    "test": "npx cypress run || :",
+    "test": "cypress run || :",
     "posttest": "pkill -f http-server"
   },
   "author": "simo.todaro@gmail.com",
