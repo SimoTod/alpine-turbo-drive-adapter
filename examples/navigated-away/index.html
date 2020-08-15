@@ -3,12 +3,13 @@
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js" integrity="sha256-iM4Yzi/zLj/IshPWMC1IluRxTtRjMqjPGd97TZ9yYpU=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
-    <script src="/dist/alpine-turnolinks-adapter.js" defer></script>
+    <script src="/dist/alpine-turbolinks-adapter.js" defer></script>
 </head>
 
 <body>
-    <h1>First Page</h1>
-    <a href="/turbolinks-manual-test/navigated-away">Second Page</a>
+    <h1>Second Page</h1>
+    <a href="javascript:history.back()">Back</a>
+    <a href="/examples/">First Page</a>
 
     <script>
         function componentAdder() {
@@ -29,7 +30,6 @@
                 },
             }
         }
-
     </script>
     <h2>8.4 The components added when pushing the button should be preserved when navigating away and back</h2>
     <div x-data="componentAdder()" id="t8_4" data-turbolinks-permanent>
@@ -43,6 +43,7 @@
         </div>
     </div>
 
+
     <h2>1.1 This component should be preserved and be working in the Second page</h2>
     <div x-data="{ foo: 'bar' }" id="t1_1" data-turbolinks-permanent>
         <input x-model="foo"></input>
@@ -50,41 +51,11 @@
         <button x-on:click="foo = 'baz'"></button>
     </div>
 
-    <h2>2.0 This item should not add a duplicate span item when navigating away and back to this page</h2>
-    <div x-data="{ foo: 'bar', open: true }">
-        <template x-if="open">
-            <span x-text="foo"></span>
-        </template>
-    </div>
-
-    <h2>3.0 This item should not add duplicate span items when navigating away and back to this page</h2>
-    <div x-data="{ foo: ['bar', 'baz'] }">
-        <template x-for="item3 in foo">
-            <span x-text="item3"></span>
-        </template>
-    </div>
-
-    <h2>4.0 This component should be preserved and not be logging any errors when navigating to the Second page</h2>
-    <div x-data="{ foo: ['bar', 'baz'] }" id="t4_0" data-turbolinks-permanent>
-        <template x-for="item4 in foo">
-            <span x-text="item4"></span>
-        </template>
-    </div>
-
     <h2>4.2 This component should be preserved and not be logging any errors when navigating to the Second page</h2>
     <div x-data="{ foo: ['bar', 'baz'] }" id="t4_2" data-turbolinks-permanent>
         <template x-for="item42 in foo">
             <span x-text="item42"></span>
         </template>
-    </div>
-
-    <h2>5.0 This item should not add duplicate span items nor errors when navigating away and back to this page</h2>
-    <div x-data="{ foo: 'bar' }" id="t5_0" data-turbolinks-permanent>
-        <div x-data="{ bob: ['bar', 'baz'] }">
-            <template x-for="item5 in bob">
-                <span x-text="item5"></span>
-            </template>
-        </div>
     </div>
 
     <h2>6.3 This item should be preserved when navigating away and back</h2>
@@ -96,13 +67,18 @@
         </div>
     </div>
 
-    <h2>7.0 This item should be preserved when navigating away and back</h2>
-    <div x-data="{ foo: 'bar' }" id="t7_0" data-turbolinks-permanent>
-        <div x-data="{ open: true }">
-            <template x-if="open">
-                <span>Item</span>
-            </template>
-        </div>
+    <h2>0.1 This component should be preserved and working correctly (including no errors in console)</h2>
+    <div x-data="{ foo: ['bar', 'baz'] }" id="t0_1" data-turbolinks-permanent>
+        <template x-for="item in foo">
+            <span x-text="item"></span>
+        </template>
+    </div>
+
+    <h2>0.2 This component should be working correctly (including no errors in console)</h2>
+    <div x-data="{ foo: ['bar', 'baz'] }">
+        <template x-for="item in foo">
+            <span x-text="item"></span>
+        </template>
     </div>
 </body>
 
