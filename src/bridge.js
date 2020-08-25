@@ -1,4 +1,4 @@
-import { walk, isValidVersion } from './utils'
+import { isValidVersion } from './utils'
 
 export default class Bridge {
   constructor () {
@@ -48,7 +48,7 @@ export default class Bridge {
     document.addEventListener('turbolinks:before-cache', () => {
       this.alpine.pauseMutationObserver = true
 
-      walk(document.body, (el) => {
+      document.body.querySelectorAll('[x-for],[x-if]').forEach((el) => {
         if (el.hasAttribute('x-for')) {
           let nextEl = el.nextElementSibling
           while (nextEl && nextEl.__x_for_key !== 'undefined') {
@@ -62,8 +62,6 @@ export default class Bridge {
             ifEl.setAttribute('data-alpine-generated-me', true)
           }
         }
-
-        return true
       })
     })
   }
