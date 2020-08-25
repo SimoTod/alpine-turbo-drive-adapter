@@ -3,15 +3,6 @@
   factory();
 }((function () { 'use strict';
 
-  function walk(el, callback) {
-    if (callback(el) === false) return;
-    let node = el.firstElementChild;
-
-    while (node) {
-      walk(node, callback);
-      node = node.nextElementSibling;
-    }
-  }
   function isValidVersion(required, current) {
     const requiredArray = required.split('.');
     const currentArray = current.split('.');
@@ -71,7 +62,7 @@
 
       document.addEventListener('turbolinks:before-cache', () => {
         this.alpine.pauseMutationObserver = true;
-        walk(document.body, el => {
+        document.body.querySelectorAll('[x-for],[x-if]').forEach(el => {
           if (el.hasAttribute('x-for')) {
             let nextEl = el.nextElementSibling;
 
@@ -87,8 +78,6 @@
               ifEl.setAttribute('data-alpine-generated-me', true);
             }
           }
-
-          return true;
         });
       });
     }
