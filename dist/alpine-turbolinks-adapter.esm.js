@@ -61,7 +61,7 @@ class Bridge {
         if (el.hasAttribute('x-for')) {
           let nextEl = el.nextElementSibling;
 
-          while (nextEl && nextEl.__x_for_key !== 'undefined') {
+          while (nextEl && typeof nextEl.__x_for_key !== 'undefined') {
             const currEl = nextEl;
             nextEl = nextEl.nextElementSibling;
             currEl.setAttribute('data-alpine-generated-me', true);
