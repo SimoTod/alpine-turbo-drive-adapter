@@ -31,7 +31,7 @@ class Bridge {
       this.alpine.discoverUninitializedComponents(el => {
         this.alpine.initializeComponent(el);
       });
-      this.alpine.pauseMutationObserver = true;
+      requestAnimationFrame(() => this.alpine.pauseMutationObserver = false);
     }); // Before swapping the body, clean up any element with x-turbolinks-cached
     // which do not have any Alpine properties.
     // Note, at this point all html fragments marked as data-turbolinks-permanent

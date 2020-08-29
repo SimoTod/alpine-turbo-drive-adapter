@@ -20,7 +20,7 @@ export default class Bridge {
         this.alpine.initializeComponent(el)
       })
 
-      this.alpine.pauseMutationObserver = true
+      requestAnimationFrame(() => { this.alpine.pauseMutationObserver = false })
     })
 
     // Before swapping the body, clean up any element with x-turbolinks-cached
