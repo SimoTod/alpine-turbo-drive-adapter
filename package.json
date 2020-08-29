@@ -24,10 +24,10 @@
   "author": "simo.todaro@gmail.com",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.10.5",
-    "@babel/preset-env": "^7.10.4",
-    "cypress": "^4.10.0",
-    "eslint": "^7.4.0",
+    "@babel/core": "^7.11.4",
+    "@babel/preset-env": "^7.11.0",
+    "cypress": "^4.12.1",
+    "eslint": "^7.7.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-node": "^11.1.0",
@@ -35,12 +35,12 @@
     "eslint-plugin-standard": "^4.0.1",
     "http-server": "^0.12.3",
     "husky": "^4.2.5",
-    "lint-staged": "^10.2.11",
-    "rollup": "^2.22.0",
+    "lint-staged": "^10.2.13",
+    "rollup": "^2.26.8",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-filesize": "^9.0.2",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "start-server-and-test": "^1.11.2"
+    "start-server-and-test": "^1.11.3"
   },
   "dependencies": {},
   "husky": {
