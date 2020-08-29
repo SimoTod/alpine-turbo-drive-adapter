@@ -1,6 +1,6 @@
 {
   "name": "alpine-turbolinks-adapter",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Bridge library to enable full support for Alpine components in pages using Turbolinks",
   "main": "dist/alpine-turbolinks-adapter.js",
   "module": "dist/alpine-turbolinks-adapter.esm.js",
