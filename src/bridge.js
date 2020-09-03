@@ -2,22 +2,14 @@ import { isValidVersion } from './utils'
 
 export default class Bridge {
   init () {
-    const initAlpine = window.deferLoadingAlpine || ((callback) => callback())
-    window.deferLoadingAlpine = (callback) => {
-      this.setAlpine(window.Alpine) // eslint-disable-line no-undef
+    this.setAlpine(window.Alpine) // eslint-disable-line no-undef
 
-      document.addEventListener('turbolinks:load', () => {
-        // Tag all cloaked elements on first page load.
-        document.body.querySelectorAll('[x-cloak]').forEach((node) => {
-          node.setAttribute('data-alpine-was-cloaked', '')
-        })
-        this.configureEventHandlers()
+    // Tag all cloaked elements on first page load.
+    document.body.querySelectorAll('[x-cloak]').forEach((node) => {
+      node.setAttribute('data-alpine-was-cloaked', '')
+    })
 
-        // Alpine needs to wait until after page load because it immediatly
-        // initializes components, which will remove the x-cloak attribute.
-        initAlpine(callback)
-      }, { once: true })
-    }
+    this.configureEventHandlers()
   }
 
   setAlpine (reference) {

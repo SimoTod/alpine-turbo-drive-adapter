@@ -18,24 +18,13 @@
 
   class Bridge {
     init() {
-      const initAlpine = window.deferLoadingAlpine || (callback => callback());
+      this.setAlpine(window.Alpine); // eslint-disable-line no-undef
+      // Tag all cloaked elements on first page load.
 
-      window.deferLoadingAlpine = callback => {
-        this.setAlpine(window.Alpine); // eslint-disable-line no-undef
-
-        document.addEventListener('turbolinks:load', () => {
-          // Tag all cloaked elements on first page load.
-          document.body.querySelectorAll('[x-cloak]').forEach(node => {
-            node.setAttribute('data-alpine-was-cloaked', '');
-          });
-          this.configureEventHandlers(); // Alpine needs to wait until after page load because it immediatly
-          // initializes components, which will remove the x-cloak attribute.
-
-          initAlpine(callback);
-        }, {
-          once: true
-        });
-      };
+      document.body.querySelectorAll('[x-cloak]').forEach(node => {
+        node.setAttribute('data-alpine-was-cloaked', '');
+      });
+      this.configureEventHandlers();
     }
 
     setAlpine(reference) {
@@ -117,7 +106,16 @@
 
   }
 
-  const bridge = new Bridge();
-  bridge.init();
+  const initAlpine = window.deferLoadingAlpine || (callback => callback());
+
+  window.deferLoadingAlpine = callback => {
+    document.addEventListener('DOMContentLoaded', () => {
+      const bridge = new Bridge();
+      bridge.init();
+      initAlpine(callback);
+    }, {
+      once: true
+    });
+  };
 
 })));
