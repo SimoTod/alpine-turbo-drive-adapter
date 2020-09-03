@@ -17,8 +17,14 @@
   }
 
   class Bridge {
-    constructor() {
+    init() {
       this.setAlpine(window.Alpine); // eslint-disable-line no-undef
+      // Tag all cloaked elements on first page load.
+
+      document.body.querySelectorAll('[x-cloak]').forEach(node => {
+        node.setAttribute('data-alpine-was-cloaked', '');
+      });
+      this.configureEventHandlers();
     }
 
     setAlpine(reference) {
@@ -29,7 +35,7 @@
       this.alpine = reference;
     }
 
-    init() {
+    configureEventHandlers() {
       // Once Turbolinks finished is magic, we initialise Alpine on the new page
       // and resume the observer
       document.addEventListener('turbolinks:load', () => {
@@ -46,11 +52,19 @@
       // and custom properties and we don't want to reset them.
 
       document.addEventListener('turbolinks:before-render', event => {
-        event.data.newBody.querySelectorAll('[data-alpine-generated-me]').forEach(el => {
-          el.removeAttribute('data-alpine-generated-me');
+        event.data.newBody.querySelectorAll('[data-alpine-generated-me],[x-cloak]').forEach(el => {
+          if (el.hasAttribute('x-cloak')) {
+            // When we get a new document body tag any cloaked elements so we can cloak
+            // them again before caching.
+            el.setAttribute('data-alpine-was-cloaked', '');
+          }
 
-          if (typeof el.__x_for_key === 'undefined' && typeof el.__x_inserted_me === 'undefined') {
-            el.remove();
+          if (el.hasAttribute('data-alpine-generated-me')) {
+            el.removeAttribute('data-alpine-generated-me');
+
+            if (typeof el.__x_for_key === 'undefined' && typeof el.__x_inserted_me === 'undefined') {
+              el.remove();
+            }
           }
         });
       }); // Pause the the mutation observer to avoid data races, it will be resumed by the turbolinks:load event.
@@ -64,7 +78,13 @@
 
       document.addEventListener('turbolinks:before-cache', () => {
         this.alpine.pauseMutationObserver = true;
-        document.body.querySelectorAll('[x-for],[x-if]').forEach(el => {
+        document.body.querySelectorAll('[x-for],[x-if],[data-alpine-was-cloaked]').forEach(el => {
+          // Cloak any elements again that were tagged when the page was loaded
+          if (el.hasAttribute('data-alpine-was-cloaked')) {
+            el.setAttribute('x-cloak', '');
+            el.removeAttribute('data-alpine-was-cloaked');
+          }
+
           if (el.hasAttribute('x-for')) {
             let nextEl = el.nextElementSibling;
 
@@ -86,7 +106,18 @@
 
   }
 
-  const bridge = new Bridge();
-  bridge.init();
+  if (window.Alpine) {
+    console.error("Alpine-turbolinks-adapter must be included before AlpineJs");
+  }
+
+  const initAlpine = window.deferLoadingAlpine || (callback => callback());
+
+  window.deferLoadingAlpine = callback => {
+    document.addEventListener('DOMContentLoaded', () => {
+      const bridge = new Bridge();
+      bridge.init();
+      initAlpine(callback);
+    });
+  };
 
 })));

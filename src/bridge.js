@@ -1,31 +1,15 @@
 import { isValidVersion } from './utils'
 
-const XCLOAK = 'x-cloak'
-const WAS_CLOAKED = 'data-alpine-was-cloaked'
-const ALPINE_GENERATED = 'data-alpine-generated-me'
-
-const LOAD_SELECTOR = '[x-cloak]'
-const BEFORE_RENDER_SELECTOR = '[data-alpine-generated-me],[x-cloak]'
-const BEFORE_CACHE_SELECTOR = '[x-for],[x-if],[data-alpine-was-cloaked]'
-
 export default class Bridge {
   init () {
-    const initAlpine = window.deferLoadingAlpine || ((callback) => callback())
-    window.deferLoadingAlpine = (callback) => {
-      this.setAlpine(window.Alpine) // eslint-disable-line no-undef
+    this.setAlpine(window.Alpine) // eslint-disable-line no-undef
 
-      document.addEventListener('turbolinks:load', () => {
-        // Tag all cloaked elements on first page load.
-        document.body.querySelectorAll(LOAD_SELECTOR).forEach((node) => {
-          this.tagCloakedElement(node)
-        })
-        this.configureEventHandlers()
+    // Tag all cloaked elements on first page load.
+    document.body.querySelectorAll('[x-cloak]').forEach((node) => {
+      node.setAttribute('data-alpine-was-cloaked', '')
+    })
 
-        // Alpine needs to wait until after page load because it immediatly
-        // initializes components, which will remove the x-cloak attribute.
-        initAlpine(callback)
-      }, { once: true })
-    }
+    this.configureEventHandlers()
   }
 
   setAlpine (reference) {
@@ -33,10 +17,6 @@ export default class Bridge {
       throw new Error('Invalid Alpine version. Please use Alpine 2.4.0 or above')
     }
     this.alpine = reference
-  }
-
-  tagCloakedElement (node) {
-    node.setAttribute(WAS_CLOAKED, '')
   }
 
   configureEventHandlers () {
@@ -56,15 +36,15 @@ export default class Bridge {
     // are already copied over from the previous page so they retain their listener
     // and custom properties and we don't want to reset them.
     document.addEventListener('turbolinks:before-render', (event) => {
-      event.data.newBody.querySelectorAll(BEFORE_RENDER_SELECTOR).forEach((el) => {
-        if (el.hasAttribute(XCLOAK)) {
+      event.data.newBody.querySelectorAll('[data-alpine-generated-me],[x-cloak]').forEach((el) => {
+        if (el.hasAttribute('x-cloak')) {
           // When we get a new document body tag any cloaked elements so we can cloak
           // them again before caching.
-          this.tagCloakedElement(el)
+          el.setAttribute('data-alpine-was-cloaked', '')
         }
 
-        if (el.hasAttribute(ALPINE_GENERATED)) {
-          el.removeAttribute(ALPINE_GENERATED)
+        if (el.hasAttribute('data-alpine-generated-me')) {
+          el.removeAttribute('data-alpine-generated-me')
           if (typeof el.__x_for_key === 'undefined' && typeof el.__x_inserted_me === 'undefined') {
             el.remove()
           }
@@ -83,11 +63,11 @@ export default class Bridge {
     document.addEventListener('turbolinks:before-cache', () => {
       this.alpine.pauseMutationObserver = true
 
-      document.body.querySelectorAll(BEFORE_CACHE_SELECTOR).forEach((el) => {
+      document.body.querySelectorAll('[x-for],[x-if],[data-alpine-was-cloaked]').forEach((el) => {
         // Cloak any elements again that were tagged when the page was loaded
-        if (el.hasAttribute(WAS_CLOAKED)) {
-          el.setAttribute(XCLOAK, '')
-          el.removeAttribute(WAS_CLOAKED)
+        if (el.hasAttribute('data-alpine-was-cloaked')) {
+          el.setAttribute('x-cloak', '')
+          el.removeAttribute('data-alpine-was-cloaked')
         }
 
         if (el.hasAttribute('x-for')) {
@@ -95,12 +75,12 @@ export default class Bridge {
           while (nextEl && typeof nextEl.__x_for_key !== 'undefined') {
             const currEl = nextEl
             nextEl = nextEl.nextElementSibling
-            currEl.setAttribute(ALPINE_GENERATED, true)
+            currEl.setAttribute('data-alpine-generated-me', true)
           }
         } else if (el.hasAttribute('x-if')) {
           const ifEl = el.nextElementSibling
           if (ifEl && typeof ifEl.__x_inserted_me !== 'undefined') {
-            ifEl.setAttribute(ALPINE_GENERATED, true)
+            ifEl.setAttribute('data-alpine-generated-me', true)
           }
         }
       })
