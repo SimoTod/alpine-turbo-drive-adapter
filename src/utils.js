@@ -8,3 +8,15 @@ export function isValidVersion (required, current) {
   }
   return true
 }
+
+export function beforeDomReady (callback) {
+  if (document.readyState === 'loading') {
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        callback()
+      }
+    })
+  } else {
+    callback()
+  }
+}
