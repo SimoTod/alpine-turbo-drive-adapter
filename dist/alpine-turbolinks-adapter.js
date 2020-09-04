@@ -29,32 +29,30 @@
 
   class Bridge {
     init() {
-      this.setAlpine(window.Alpine); // eslint-disable-line no-undef
       // Tag all cloaked elements on first page load.
-
       document.body.querySelectorAll('[x-cloak]').forEach(node => {
         node.setAttribute('data-alpine-was-cloaked', '');
       });
       this.configureEventHandlers();
     }
 
-    setAlpine(reference) {
-      if (!reference.version || !isValidVersion('2.4.0', reference.version)) {
+    setMutationObserverState(state) {
+      if (!window.Alpine.version || !isValidVersion('2.4.0', window.Alpine.version)) {
         throw new Error('Invalid Alpine version. Please use Alpine 2.4.0 or above');
       }
 
-      this.alpine = reference;
+      window.Alpine.pauseMutationObserver = state;
     }
 
     configureEventHandlers() {
       // Once Turbolinks finished is magic, we initialise Alpine on the new page
       // and resume the observer
       document.addEventListener('turbolinks:load', () => {
-        this.alpine.discoverUninitializedComponents(el => {
-          this.alpine.initializeComponent(el);
+        window.Alpine.discoverUninitializedComponents(el => {
+          window.Alpine.initializeComponent(el);
         });
         requestAnimationFrame(() => {
-          this.alpine.pauseMutationObserver = false;
+          this.setMutationObserverState(false);
         });
       }); // Before swapping the body, clean up any element with x-turbolinks-cached
       // which do not have any Alpine properties.
@@ -88,7 +86,7 @@
       // The coping process happens somewhere between before-cache and before-render.
 
       document.addEventListener('turbolinks:before-cache', () => {
-        this.alpine.pauseMutationObserver = true;
+        this.setMutationObserverState(true);
         document.body.querySelectorAll('[x-for],[x-if],[data-alpine-was-cloaked]').forEach(el => {
           // Cloak any elements again that were tagged when the page was loaded
           if (el.hasAttribute('data-alpine-was-cloaked')) {
