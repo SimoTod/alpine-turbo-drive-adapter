@@ -10,6 +10,17 @@ function isValidVersion(required, current) {
 
   return true;
 }
+function beforeDomReady(callback) {
+  if (document.readyState === 'loading') {
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        callback();
+      }
+    });
+  } else {
+    callback();
+  }
+}
 
 class Bridge {
   init() {
@@ -103,14 +114,11 @@ class Bridge {
 
 if (window.Alpine) {
   console.error('Alpine-turbolinks-adapter must be included before AlpineJs');
-}
+} // To better suport x-cloak, we need to init the library when the DOM
+// has been downloaded but before Alpine kicks in
 
-const initAlpine = window.deferLoadingAlpine || (callback => callback());
 
-window.deferLoadingAlpine = callback => {
-  document.addEventListener('DOMContentLoaded', () => {
-    const bridge = new Bridge();
-    bridge.init();
-    initAlpine(callback);
-  });
-};
+beforeDomReady(() => {
+  const bridge = new Bridge();
+  bridge.init();
+});
