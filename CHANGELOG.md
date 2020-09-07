@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.1] - 2017-09-07
+### Fixed
+- Fixed bug when using Livewire+Turbolink causing the mutation observer not to start in certain scenarios
+
 ## [v0.2.0] - 2017-09-03
 ### Added
 - Added support for x-cloak to avoid flickering when navigating to cached versions
@@ -34,7 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial Release
 
-[Unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.2.1...HEAD
+[v0.2.0]: https://github.com/SimoTod/alpine-turbolinks-adapter/compare/v0.2.0...v0.2.1
 [v0.2.0]: https://github.com/SimoTod/alpine-turbolinks-adapter/compare/v0.1.4...v0.2.0
 [v0.1.4]: https://github.com/SimoTod/alpine-turbolinks-adapter/compare/v0.1.3...v0.1.4
 [v0.1.3]: https://github.com/SimoTod/alpine-turbolinks-adapter/compare/v0.1.2...v0.1.3
