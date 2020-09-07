@@ -39,7 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial Release
 
 [Unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.2.1...HEAD
-[v0.2.0]: https://github.com/SimoTod/alpine-turbolinks-adapter/compare/v0.2.0...v0.2.1
+[v0.2.1]: https://github.com/SimoTod/alpine-turbolinks-adapter/compare/v0.2.0...v0.2.1
 [v0.2.0]: https://github.com/SimoTod/alpine-turbolinks-adapter/compare/v0.1.4...v0.2.0
 [v0.1.4]: https://github.com/SimoTod/alpine-turbolinks-adapter/compare/v0.1.3...v0.1.4
 [v0.1.3]: https://github.com/SimoTod/alpine-turbolinks-adapter/compare/v0.1.2...v0.1.3
