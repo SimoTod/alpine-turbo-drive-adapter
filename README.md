@@ -1,7 +1,7 @@
 # Alpine Turbolinks Adapter
 
 Alpine-turbolinks-adapter allows you to add support for Alpine.js to your Turbolinks powered apps.
-It handle Turbolinks events to properly clean up the DOM from Alpine generated code when navigating between pages.
+It handles Turbolinks events to properly clean up the DOM from Alpine generated code when navigating between pages.
 
 ## Install
 
