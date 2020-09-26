@@ -36,11 +36,11 @@
     "http-server": "^0.12.3",
     "husky": "^4.3.0",
     "lint-staged": "^10.4.0",
-    "rollup": "^2.27.0",
+    "rollup": "^2.28.2",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-filesize": "^9.0.2",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "start-server-and-test": "^1.11.3"
+    "start-server-and-test": "^1.11.4"
   },
   "dependencies": {},
   "husky": {
