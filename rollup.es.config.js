@@ -7,26 +7,22 @@ export default {
   output: [
     {
       name: 'Alpine',
-      file: 'dist/alpine-turbolinks-adapter.js',
-      format: 'umd'
+      file: 'dist/alpine-turbolinks-adapter.esm.js',
+      format: 'es'
     }
   ],
   plugins: [
     resolve(),
     filesize(),
     babel({
-      exclude: 'node_modules/**',
       babelrc: false,
+      exclude: 'node_modules/**',
       presets: [
         [
           '@babel/preset-env',
           {
             targets: {
-              node: 'current',
-              edge: '18',
-              ie: '11',
-              ios: '11.3',
-              safari: '13'
+              node: 'current'
             }
           }
         ]

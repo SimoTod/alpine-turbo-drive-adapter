@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "watch": "rollup -c -w",
-    "build": "rollup -c",
+    "build": "rollup -c && rollup -c rollup.es.config.js",
     "lint": "eslint src",
     "lint-fix": "eslint src --fix",
     "pretest": "http-server &",
