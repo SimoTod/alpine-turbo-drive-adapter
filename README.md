@@ -6,7 +6,7 @@ It handles Turbolinks events to properly clean up the DOM from Alpine generated 
 ## Install
 
 ### From CDN
-Just include `<script src="https://cdn.jsdelivr.net/npm/alpine-turbolinks-adapter@0.2.x/dist/alpine-turbolinks-adapter.min.js" defer></script>` before your Alpine script in your page.
+Just include `<script src="https://cdn.jsdelivr.net/npm/alpine-turbolinks-adapter@0.3.x/dist/alpine-turbolinks-adapter.min.js" defer></script>` before your Alpine script in your page.
 
 ### From NPM
  Install the package
