@@ -11,10 +11,10 @@ Just include `<script src="https://cdn.jsdelivr.net/npm/alpine-turbo-adapter1.0.
 ### From NPM
  Install the package
 ```bash
-npm i alpine-turbo-adapter
+npm i alpine-turbo-drive-adapter
 ```
 Include it in your script along with Alpine JS.
 ```javascript
-import 'alpine-turbo-adapter'
+import 'alpine-turbo-drive-adapter'
 import 'alpinejs'
 ```

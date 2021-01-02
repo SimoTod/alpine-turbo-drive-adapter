@@ -1,9 +1,9 @@
 {
-  "name": "alpine-turbo-adapter",
+  "name": "alpine-turbo-drive-adapter",
   "version": "0.3.0",
-  "description": "Bridge library to enable full support for Alpine components in pages using Turbolinks/Turbo",
-  "main": "dist/alpine-turbo-adapter.js",
-  "module": "dist/alpine-turbo-adapter.esm.js",
+  "description": "Bridge library to enable full support for Alpine components in pages using Turbolinks/Turbo Drive",
+  "main": "dist/alpine-turbo-drive-adapter.js",
+  "module": "dist/alpine-turbo-drive-adapter.esm.js",
   "directories": {
     "example": "examples"
   },
