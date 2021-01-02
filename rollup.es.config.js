@@ -7,7 +7,7 @@ export default {
   output: [
     {
       name: 'Alpine',
-      file: 'dist/alpine-turbolinks-adapter.esm.js',
+      file: 'dist/alpine-turbo-adapter.esm.js',
       format: 'es'
     }
   ],
