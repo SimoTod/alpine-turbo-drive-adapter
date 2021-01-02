@@ -79,24 +79,23 @@
 
         // Once Turbolinks finished is magic, we initialise Alpine on the new page
         // and resume the observer
-        var callback = function callback() {
+        var initCallback = function initCallback() {
           window.Alpine.discoverUninitializedComponents(function (el) {
             window.Alpine.initializeComponent(el);
           });
           requestAnimationFrame(function () {
             _this.setMutationObserverState(false);
           });
-        };
-
-        document.addEventListener('turbo:load', callback);
-        document.addEventListener('turbolinks:load', callback); // Before swapping the body, clean up any element with x-turbolinks-cached
+        }; // Before swapping the body, clean up any element with x-turbolinks-cached
         // which do not have any Alpine properties.
         // Note, at this point all html fragments marked as data-turbolinks-permanent
         // are already copied over from the previous page so they retain their listener
         // and custom properties and we don't want to reset them.
 
-        document.addEventListener('turbolinks:before-render', function (event) {
-          event.data.newBody.querySelectorAll('[data-alpine-generated-me],[x-cloak]').forEach(function (el) {
+
+        var beforeRenderCallback = function beforeRenderCallback(event) {
+          var newBody = event.data ? event.data.newBody : event.detail.newBody;
+          newBody.querySelectorAll('[data-alpine-generated-me],[x-cloak]').forEach(function (el) {
             if (el.hasAttribute('x-cloak')) {
               // When we get a new document body tag any cloaked elements so we can cloak
               // them again before caching.
@@ -111,7 +110,7 @@
               }
             }
           });
-        }); // Pause the the mutation observer to avoid data races, it will be resumed by the turbolinks:load event.
+        }; // Pause the the mutation observer to avoid data races, it will be resumed by the turbolinks:load event.
         // We mark as `data-alpine-generated-m` all elements that are crated by an Alpine templating directives.
         // The reason is that turbolinks caches pages using cloneNode which removes listeners and custom properties
         // So we need to propagate this infomation using a HTML attribute. I know, not ideal but I could not think
@@ -120,7 +119,8 @@
         // marked as data-turbolinks-permanent they need to be copied into the next page.
         // The coping process happens somewhere between before-cache and before-render.
 
-        document.addEventListener('turbolinks:before-cache', function () {
+
+        var beforeCacheCallback = function beforeCacheCallback() {
           _this.setMutationObserverState(true);
 
           document.body.querySelectorAll('[x-for],[x-if],[data-alpine-was-cloaked]').forEach(function (el) {
@@ -146,7 +146,14 @@
               }
             }
           });
-        });
+        };
+
+        document.addEventListener('turbo:load', initCallback);
+        document.addEventListener('turbolinks:load', initCallback);
+        document.addEventListener('turbo:before-render', beforeRenderCallback);
+        document.addEventListener('turbolinks:before-render', beforeRenderCallback);
+        document.addEventListener('turbo:before-cache', beforeCacheCallback);
+        document.addEventListener('turbolinks:before-cache', beforeCacheCallback);
       }
     }]);
 
