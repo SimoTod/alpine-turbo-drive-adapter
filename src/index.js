@@ -2,7 +2,7 @@ import Bridge from './bridge'
 import { beforeDomReady } from './utils'
 
 if (window.Alpine) {
-  console.error('Alpine-turbolinks-adapter must be included before AlpineJs')
+  console.error('Alpine-turbo-drive-adapter must be included before AlpineJs')
 }
 
 // Polyfill for legacy browsers
