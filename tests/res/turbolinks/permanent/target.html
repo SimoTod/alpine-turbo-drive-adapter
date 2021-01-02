@@ -1,0 +1,20 @@
+<html>
+  <head>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js" integrity="sha256-iM4Yzi/zLj/IshPWMC1IluRxTtRjMqjPGd97TZ9yYpU=" crossorigin="anonymous"></script>
+      <script src="/dist/alpine-turbolinks-adapter.js" defer></script>
+      <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
+  </head>
+
+  <body>
+    <a href="/tests/res/turbolinks/permanent/index.html">go to index</a>
+
+    <div x-data="{ foo: 'bar' }" id="test" data-turbolinks-permanent>
+      <input x-model="foo"></input>
+
+      <span x-text="foo"></span>
+
+      <button x-on:click="foo = 'baz'">click me</button>
+    </div>
+  </body>
+
+</html>

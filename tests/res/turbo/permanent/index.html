@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <script type="module" src="https://cdn.skypack.dev/pin/@hotwired/turbo@v7.0.0-beta.1-tPCW1AHTtVGOe5r89LWv/min/@hotwired/turbo.js" crossorigin="anonymous"></script>
+    <script src="/dist/alpine-turbolinks-adapter.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
+  </head>
+
+  <body>
+    <a href="/tests/res/turbo/permanent/target.html">Go to target</a>
+
+    <div x-data="{ foo: 'bar' }" id="test" data-turbolinks-permanent>
+      <input x-model="foo">
+
+      <span x-text="foo"></span>
+
+      <button x-on:click="foo = 'baz'">click me</button>
+    </div>
+  </body>
+
+</html>

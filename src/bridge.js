@@ -20,13 +20,17 @@ export default class Bridge {
   configureEventHandlers () {
     // Once Turbolinks finished is magic, we initialise Alpine on the new page
     // and resume the observer
-    document.addEventListener('turbolinks:load', () => {
+
+    const callback = () => {
       window.Alpine.discoverUninitializedComponents((el) => {
         window.Alpine.initializeComponent(el)
       })
 
       requestAnimationFrame(() => { this.setMutationObserverState(false) })
-    })
+    }
+
+    document.addEventListener('turbo:load', callback)
+    document.addEventListener('turbolinks:load', callback)
 
     // Before swapping the body, clean up any element with x-turbolinks-cached
     // which do not have any Alpine properties.
