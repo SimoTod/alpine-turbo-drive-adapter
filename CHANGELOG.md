@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added support for hotwire/turbo
 
+### Changed
+Renamed project from alpine-turbolinks-adapter to alpine-turbo-adapter
 
 ## [v0.3.0] - 2020-09-27
 ### Added
