@@ -48,7 +48,8 @@ Renamed project from alpine-turbolinks-adapter to alpine-turbo-adapter
 ### Added
 - Initial Release
 
-[Unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/v1.0.0...HEAD
+[v1.0.0]: https://github.com/SimoTod/alpine-turbolinks-adapter/compare/v0.3.0...v1.0.0
 [v0.3.0]: https://github.com/SimoTod/alpine-turbolinks-adapter/compare/v0.2.1...v0.3.0
 [v0.2.1]: https://github.com/SimoTod/alpine-turbolinks-adapter/compare/v0.2.0...v0.2.1
 [v0.2.0]: https://github.com/SimoTod/alpine-turbolinks-adapter/compare/v0.1.4...v0.2.0
