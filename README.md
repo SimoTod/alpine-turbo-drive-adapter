@@ -6,7 +6,7 @@ It handles events to properly clean up the DOM from Alpine generated code when n
 ## Install
 
 ### From CDN
-Just include `<script src="https://cdn.jsdelivr.net/npm/alpine-turbo-adapter1.0.x/dist/alpine-turbo-adapter.min.js" defer></script>` before your Alpine script in your page.
+Just include `<script src="https://cdn.jsdelivr.net/npm/alpine-turbo-drive-adapter@1.0.x/dist/alpine-turbo-drive-adapter.min.js" defer></script>` before your Alpine script in your page.
 
 ### From NPM
  Install the package
