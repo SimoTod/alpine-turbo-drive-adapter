@@ -1,0 +1,16 @@
+<html>
+  <head>
+      <script type="module" src="https://cdn.skypack.dev/pin/@hotwired/turbo@v7.0.0-beta.1-tPCW1AHTtVGOe5r89LWv/min/@hotwired/turbo.js" crossorigin="anonymous"></script>
+      <script src="/dist/alpine-turbo-adapter.js" defer></script>
+      <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js"></script>
+  </head>
+
+  <body>
+    <a href="/tests/res/turbo/cloak/index.html">go to index</a>
+
+    <div x-data="{ open: false }">
+      <button id='toggler' @click="open = true">Opener</button>
+      <span x-show="open" x-cloak>Hidden</span>
+    </div>
+  </body>
+</html>
