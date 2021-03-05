@@ -3,8 +3,8 @@ import { isValidVersion } from './utils'
 export default class Bridge {
   init () {
     // Tag all cloaked elements on first page load.
-    document.body.querySelectorAll('[x-cloak]').forEach((node) => {
-      node.setAttribute('data-alpine-was-cloaked', '')
+    document.body.querySelectorAll('[x-cloak]').forEach((el) => {
+      el.setAttribute('data-alpine-was-cloaked', el.getAttribute('x-cloak') ?? '')
     })
 
     this.configureEventHandlers()
@@ -40,7 +40,7 @@ export default class Bridge {
         if (el.hasAttribute('x-cloak')) {
           // When we get a new document body tag any cloaked elements so we can cloak
           // them again before caching.
-          el.setAttribute('data-alpine-was-cloaked', '')
+          el.setAttribute('data-alpine-was-cloaked', el.getAttribute('x-cloak') ?? '')
         }
 
         if (el.hasAttribute('data-alpine-generated-me')) {
@@ -66,7 +66,7 @@ export default class Bridge {
       document.body.querySelectorAll('[x-for],[x-if],[data-alpine-was-cloaked]').forEach((el) => {
         // Cloak any elements again that were tagged when the page was loaded
         if (el.hasAttribute('data-alpine-was-cloaked')) {
-          el.setAttribute('x-cloak', '')
+          el.setAttribute('x-cloak', el.getAttribute('data-alpine-was-cloaked') ?? '')
           el.removeAttribute('data-alpine-was-cloaked')
         }
 

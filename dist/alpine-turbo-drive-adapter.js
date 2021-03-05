@@ -58,8 +58,10 @@
       key: "init",
       value: function init() {
         // Tag all cloaked elements on first page load.
-        document.body.querySelectorAll('[x-cloak]').forEach(function (node) {
-          node.setAttribute('data-alpine-was-cloaked', '');
+        document.body.querySelectorAll('[x-cloak]').forEach(function (el) {
+          var _el$getAttribute;
+
+          el.setAttribute('data-alpine-was-cloaked', (_el$getAttribute = el.getAttribute('x-cloak')) !== null && _el$getAttribute !== void 0 ? _el$getAttribute : '');
         });
         this.configureEventHandlers();
       }
@@ -97,9 +99,11 @@
           var newBody = event.data ? event.data.newBody : event.detail.newBody;
           newBody.querySelectorAll('[data-alpine-generated-me],[x-cloak]').forEach(function (el) {
             if (el.hasAttribute('x-cloak')) {
+              var _el$getAttribute2;
+
               // When we get a new document body tag any cloaked elements so we can cloak
               // them again before caching.
-              el.setAttribute('data-alpine-was-cloaked', '');
+              el.setAttribute('data-alpine-was-cloaked', (_el$getAttribute2 = el.getAttribute('x-cloak')) !== null && _el$getAttribute2 !== void 0 ? _el$getAttribute2 : '');
             }
 
             if (el.hasAttribute('data-alpine-generated-me')) {
@@ -126,7 +130,9 @@
           document.body.querySelectorAll('[x-for],[x-if],[data-alpine-was-cloaked]').forEach(function (el) {
             // Cloak any elements again that were tagged when the page was loaded
             if (el.hasAttribute('data-alpine-was-cloaked')) {
-              el.setAttribute('x-cloak', '');
+              var _el$getAttribute3;
+
+              el.setAttribute('x-cloak', (_el$getAttribute3 = el.getAttribute('data-alpine-was-cloaked')) !== null && _el$getAttribute3 !== void 0 ? _el$getAttribute3 : '');
               el.removeAttribute('data-alpine-was-cloaked');
             }
 
