@@ -23,11 +23,13 @@ export default class Bridge {
 
     const initCallback = () => {
       requestAnimationFrame(() => {
-        window.Alpine.discoverUninitializedComponents((el) => {
-          window.Alpine.initializeComponent(el)
-        })
+        requestAnimationFrame(() => {
+          window.Alpine.discoverUninitializedComponents((el) => {
+            window.Alpine.initializeComponent(el)
+          })
 
-        requestAnimationFrame(() => { this.setMutationObserverState(false) })
+          requestAnimationFrame(() => { this.setMutationObserverState(false) })
+        })
       })
     }
 
