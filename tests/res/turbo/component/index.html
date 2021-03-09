@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <script type="module" src="https://cdn.skypack.dev/@hotwired/turbo" crossorigin="anonymous"></script>
+    <script src="/dist/alpine-turbo-drive-adapter.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
+    <script src="/tests/res/turbo/component/controller1.js"></script>
+  </head>
+
+  <body>
+    <a href="/tests/res/turbo/component/target.html">Go to target</a>
+
+    <div x-data="controller1()">
+      <span x-text="foo"></span>
+    </div>
+  </body>
+
+</html>
