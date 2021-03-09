@@ -82,11 +82,13 @@
         // Once Turbolinks finished is magic, we initialise Alpine on the new page
         // and resume the observer
         var initCallback = function initCallback() {
-          window.Alpine.discoverUninitializedComponents(function (el) {
-            window.Alpine.initializeComponent(el);
-          });
           requestAnimationFrame(function () {
-            _this.setMutationObserverState(false);
+            window.Alpine.discoverUninitializedComponents(function (el) {
+              window.Alpine.initializeComponent(el);
+            });
+            requestAnimationFrame(function () {
+              _this.setMutationObserverState(false);
+            });
           });
         }; // Before swapping the body, clean up any element with x-turbolinks-cached
         // which do not have any Alpine properties.

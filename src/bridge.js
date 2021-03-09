@@ -22,11 +22,13 @@ export default class Bridge {
     // and resume the observer
 
     const initCallback = () => {
-      window.Alpine.discoverUninitializedComponents((el) => {
-        window.Alpine.initializeComponent(el)
-      })
+      requestAnimationFrame(() => {
+        window.Alpine.discoverUninitializedComponents((el) => {
+          window.Alpine.initializeComponent(el)
+        })
 
-      requestAnimationFrame(() => { this.setMutationObserverState(false) })
+        requestAnimationFrame(() => { this.setMutationObserverState(false) })
+      })
     }
 
     // Before swapping the body, clean up any element with x-turbolinks-cached
