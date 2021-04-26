@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <script type="module" src="https://cdn.skypack.dev/@hotwired/turbo" crossorigin="anonymous"></script>
+    <script src="/dist/alpine-turbo-drive-adapter.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
+  </head>
+
+  <body>
+    <a href="/tests/res/turbo/stream/target.html">Go to target</a>
+
+    <div id="stream">
+      <span>Waiting...</span>
+    </div>
+
+    <form method="post" action="./stream">
+      <input type="submit">
+    </form>
+  </body>
+
+</html>
