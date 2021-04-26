@@ -14,7 +14,7 @@ export default class Bridge {
     if (!window.Alpine.version || !isValidVersion('2.4.0', window.Alpine.version)) {
       throw new Error('Invalid Alpine version. Please use Alpine 2.4.0 or above')
     }
-    window.Alpine.pauseMutationObserver = state
+    window.Alpine.pauseMutationObserver = !state
   }
 
   configureEventHandlers () {
@@ -26,7 +26,7 @@ export default class Bridge {
         window.Alpine.initializeComponent(el)
       })
 
-      requestAnimationFrame(() => { this.setMutationObserverState(false) })
+      requestAnimationFrame(() => { this.setMutationObserverState(true) })
     }
 
     // Before swapping the body, clean up any element with x-turbolinks-cached
@@ -61,7 +61,7 @@ export default class Bridge {
     // marked as data-turbolinks-permanent they need to be copied into the next page.
     // The coping process happens somewhere between before-cache and before-render.
     const beforeCacheCallback = () => {
-      this.setMutationObserverState(true)
+      this.setMutationObserverState(false)
 
       document.body.querySelectorAll('[x-for],[x-if],[data-alpine-was-cloaked]').forEach((el) => {
         // Cloak any elements again that were tagged when the page was loaded
@@ -86,11 +86,21 @@ export default class Bridge {
       })
     }
 
+    const beforeStreamRenderCallback = () => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          initCallback()
+        })
+      })
+    }
+
     document.addEventListener('turbo:load', initCallback)
     document.addEventListener('turbolinks:load', initCallback)
     document.addEventListener('turbo:before-render', beforeRenderCallback)
     document.addEventListener('turbolinks:before-render', beforeRenderCallback)
     document.addEventListener('turbo:before-cache', beforeCacheCallback)
     document.addEventListener('turbolinks:before-cache', beforeCacheCallback)
+
+    document.addEventListener('turbo:before-stream-render', beforeStreamRenderCallback)
   }
 }

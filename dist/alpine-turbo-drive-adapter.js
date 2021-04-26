@@ -72,7 +72,7 @@
           throw new Error('Invalid Alpine version. Please use Alpine 2.4.0 or above');
         }
 
-        window.Alpine.pauseMutationObserver = state;
+        window.Alpine.pauseMutationObserver = !state;
       }
     }, {
       key: "configureEventHandlers",
@@ -86,7 +86,7 @@
             window.Alpine.initializeComponent(el);
           });
           requestAnimationFrame(function () {
-            _this.setMutationObserverState(false);
+            _this.setMutationObserverState(true);
           });
         }; // Before swapping the body, clean up any element with x-turbolinks-cached
         // which do not have any Alpine properties.
@@ -125,7 +125,7 @@
 
 
         var beforeCacheCallback = function beforeCacheCallback() {
-          _this.setMutationObserverState(true);
+          _this.setMutationObserverState(false);
 
           document.body.querySelectorAll('[x-for],[x-if],[data-alpine-was-cloaked]').forEach(function (el) {
             // Cloak any elements again that were tagged when the page was loaded
@@ -154,12 +154,21 @@
           });
         };
 
+        var beforeStreamRenderCallback = function beforeStreamRenderCallback() {
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              initCallback();
+            });
+          });
+        };
+
         document.addEventListener('turbo:load', initCallback);
         document.addEventListener('turbolinks:load', initCallback);
         document.addEventListener('turbo:before-render', beforeRenderCallback);
         document.addEventListener('turbolinks:before-render', beforeRenderCallback);
         document.addEventListener('turbo:before-cache', beforeCacheCallback);
         document.addEventListener('turbolinks:before-cache', beforeCacheCallback);
+        document.addEventListener('turbo:before-stream-render', beforeStreamRenderCallback);
       }
     }]);
 
