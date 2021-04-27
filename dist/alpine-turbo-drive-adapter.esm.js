@@ -26,7 +26,9 @@ class Bridge {
   init() {
     // Tag all cloaked elements on first page load.
     document.body.querySelectorAll('[x-cloak]').forEach(el => {
-      el.setAttribute('data-alpine-was-cloaked', el.getAttribute('x-cloak') ?? '');
+      var _el$getAttribute;
+
+      el.setAttribute('data-alpine-was-cloaked', (_el$getAttribute = el.getAttribute('x-cloak')) !== null && _el$getAttribute !== void 0 ? _el$getAttribute : '');
     });
     this.configureEventHandlers();
   }
@@ -60,9 +62,11 @@ class Bridge {
       const newBody = event.data ? event.data.newBody : event.detail.newBody;
       newBody.querySelectorAll('[data-alpine-generated-me],[x-cloak]').forEach(el => {
         if (el.hasAttribute('x-cloak')) {
+          var _el$getAttribute2;
+
           // When we get a new document body tag any cloaked elements so we can cloak
           // them again before caching.
-          el.setAttribute('data-alpine-was-cloaked', el.getAttribute('x-cloak') ?? '');
+          el.setAttribute('data-alpine-was-cloaked', (_el$getAttribute2 = el.getAttribute('x-cloak')) !== null && _el$getAttribute2 !== void 0 ? _el$getAttribute2 : '');
         }
 
         if (el.hasAttribute('data-alpine-generated-me')) {
@@ -88,7 +92,9 @@ class Bridge {
       document.body.querySelectorAll('[x-for],[x-if],[data-alpine-was-cloaked]').forEach(el => {
         // Cloak any elements again that were tagged when the page was loaded
         if (el.hasAttribute('data-alpine-was-cloaked')) {
-          el.setAttribute('x-cloak', el.getAttribute('data-alpine-was-cloaked') ?? '');
+          var _el$getAttribute3;
+
+          el.setAttribute('x-cloak', (_el$getAttribute3 = el.getAttribute('data-alpine-was-cloaked')) !== null && _el$getAttribute3 !== void 0 ? _el$getAttribute3 : '');
           el.removeAttribute('data-alpine-was-cloaked');
         }
 
@@ -110,12 +116,21 @@ class Bridge {
       });
     };
 
+    const beforeStreamRenderCallback = () => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          initCallback();
+        });
+      });
+    };
+
     document.addEventListener('turbo:load', initCallback);
     document.addEventListener('turbolinks:load', initCallback);
     document.addEventListener('turbo:before-render', beforeRenderCallback);
     document.addEventListener('turbolinks:before-render', beforeRenderCallback);
     document.addEventListener('turbo:before-cache', beforeCacheCallback);
     document.addEventListener('turbolinks:before-cache', beforeCacheCallback);
+    document.addEventListener('turbo:submit-end', beforeStreamRenderCallback);
   }
 
 }
