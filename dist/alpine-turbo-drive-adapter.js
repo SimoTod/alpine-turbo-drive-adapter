@@ -154,12 +154,21 @@
           });
         };
 
+        var beforeStreamRenderCallback = function beforeStreamRenderCallback() {
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              initCallback();
+            });
+          });
+        };
+
         document.addEventListener('turbo:load', initCallback);
         document.addEventListener('turbolinks:load', initCallback);
         document.addEventListener('turbo:before-render', beforeRenderCallback);
         document.addEventListener('turbolinks:before-render', beforeRenderCallback);
         document.addEventListener('turbo:before-cache', beforeCacheCallback);
         document.addEventListener('turbolinks:before-cache', beforeCacheCallback);
+        document.addEventListener('turbo:submit-end', beforeStreamRenderCallback);
       }
     }]);
 
