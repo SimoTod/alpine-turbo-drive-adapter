@@ -31,7 +31,7 @@ jobs:
       - name: Update changelog
         uses: thomaseizinger/keep-a-changelog-new-release@v1
         with:
-          version: v${{ env.RELEASE_VERSION }}
+          version: ${{ env.RELEASE_VERSION }}
       - name: Commit changelog
         run: git commit -am 'Update changelog'
       - name: Delete tag #for some reason npm version fails if the tag exists
