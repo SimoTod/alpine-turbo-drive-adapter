@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [vv1.0.4] - 2021-04-29
+
 ### Fixed
-- 4xx-5xx responses in Safari
+
+-   4xx-5xx responses in Safari
 
 ## [v1.0.3] - 2021-04-28
 
@@ -91,7 +94,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Initial Release
 
-[Unreleased]: https://github.com/SimoTod/alpine-turbo-drive-adapter/compare/v1.0.3...HEAD
+[Unreleased]: https://github.com/SimoTod/alpine-turbo-drive-adapter/compare/vv1.0.4...HEAD
+
+[vv1.0.4]: https://github.com/SimoTod/alpine-turbo-drive-adapter/compare/v1.0.3...vv1.0.4
 
 [v1.0.3]: https://github.com/SimoTod/alpine-turbo-drive-adapter/compare/v1.0.2...v1.0.3
 
