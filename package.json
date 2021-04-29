@@ -1,6 +1,6 @@
 {
   "name": "alpine-turbo-drive-adapter",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Bridge library to enable full support for Alpine components in pages using Turbolinks/Turbo Drive",
   "main": "dist/alpine-turbo-drive-adapter.js",
   "module": "dist/alpine-turbo-drive-adapter.esm.js",
@@ -26,8 +26,8 @@
   "author": "simo.todaro@gmail.com",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.13.16",
-    "@babel/preset-env": "^7.13.15",
+    "@babel/core": "^7.14.0",
+    "@babel/preset-env": "^7.14.0",
     "cypress": "^6.9.1",
     "eslint": "^7.25.0",
     "eslint-config-standard": "^14.1.1",
@@ -38,7 +38,7 @@
     "http-server": "^0.12.3",
     "husky": "^4.3.8",
     "lint-staged": "^10.5.4",
-    "rollup": "^2.45.2",
+    "rollup": "^2.46.0",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-filesize": "^9.1.1",
     "rollup-plugin-node-resolve": "^5.2.0",

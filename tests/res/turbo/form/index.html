@@ -1,17 +1,12 @@
 <html>
   <head>
-    <script type="module" src="https://cdn.skypack.dev/pin/@hotwired/turbo@v7.0.0-beta.1-tPCW1AHTtVGOe5r89LWv/min/@hotwired/turbo.js" crossorigin="anonymous"></script>
+    <script type="module" src="https://cdn.skypack.dev/@hotwired/turbo" crossorigin="anonymous"></script>
     <script src="/dist/alpine-turbo-drive-adapter.js" defer></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
   </head>
 
   <body>
-    <div x-data="{ foo: 'bar' }">
-      <span x-text="foo"></span>
-      <button @click="foo = 'baz'"></span>
-    </div>
-
-    <form action="/tests/res/turbo/form/error.html" accept-charset="UTF-8" method="post">
+    <form action="/tests/res/turbo/form/error.html" method="post" data-turbo-frame="_top">
       <input name="field" />
       <input type="submit" value="Submit" />
     </form>

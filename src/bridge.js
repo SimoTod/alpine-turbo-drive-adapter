@@ -86,10 +86,13 @@ export default class Bridge {
       })
     }
 
-    const beforeStreamRenderCallback = () => {
+    const beforeStreamFormRenderCallback = () => {
+      // In theory, 2 frames would be enough for everyone but Safari
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          initCallback()
+          requestAnimationFrame(() => {
+            initCallback()
+          })
         })
       })
     }
@@ -100,7 +103,7 @@ export default class Bridge {
     document.addEventListener('turbolinks:before-render', beforeRenderCallback)
     document.addEventListener('turbo:before-cache', beforeCacheCallback)
     document.addEventListener('turbolinks:before-cache', beforeCacheCallback)
-
-    document.addEventListener('turbo:before-stream-render', beforeStreamRenderCallback)
+    document.addEventListener('turbo:before-stream-render', beforeStreamFormRenderCallback)
+    document.addEventListener('turbo:submit-end', beforeStreamFormRenderCallback)
   }
 }

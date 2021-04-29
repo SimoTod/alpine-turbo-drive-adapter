@@ -154,10 +154,13 @@
           });
         };
 
-        var beforeStreamRenderCallback = function beforeStreamRenderCallback() {
+        var beforeStreamFormRenderCallback = function beforeStreamFormRenderCallback() {
+          // In theory, 2 frames would be enough for everyone but Safari
           requestAnimationFrame(function () {
             requestAnimationFrame(function () {
-              initCallback();
+              requestAnimationFrame(function () {
+                initCallback();
+              });
             });
           });
         };
@@ -168,7 +171,8 @@
         document.addEventListener('turbolinks:before-render', beforeRenderCallback);
         document.addEventListener('turbo:before-cache', beforeCacheCallback);
         document.addEventListener('turbolinks:before-cache', beforeCacheCallback);
-        document.addEventListener('turbo:before-stream-render', beforeStreamRenderCallback);
+        document.addEventListener('turbo:before-stream-render', beforeStreamFormRenderCallback);
+        document.addEventListener('turbo:submit-end', beforeStreamFormRenderCallback);
       }
     }]);
 
