@@ -157,7 +157,9 @@
         var beforeStreamRenderCallback = function beforeStreamRenderCallback() {
           requestAnimationFrame(function () {
             requestAnimationFrame(function () {
-              initCallback();
+              requestAnimationFrame(function () {
+                initCallback();
+              });
             });
           });
         };
