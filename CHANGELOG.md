@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- 4xx-5xx responses in Safari
+
 ## [v1.0.3] - 2021-04-28
 
 ### Fixed

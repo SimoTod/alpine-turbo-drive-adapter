@@ -155,9 +155,12 @@
         };
 
         var beforeStreamRenderCallback = function beforeStreamRenderCallback() {
+          // In theory, 2 frames would be enough for everyone but Safari
           requestAnimationFrame(function () {
             requestAnimationFrame(function () {
-              initCallback();
+              requestAnimationFrame(function () {
+                initCallback();
+              });
             });
           });
         };
