@@ -6,11 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [v1.1.0] - 2021-05-02
+
 ### Changed
-- Use turbo:render (triggering update only when not in preview mode) instead of turbo:load to better support turbo frames (turbo:submit-end + request animation frame don't play nicely on Safari).
+
+-   Use turbo:render (triggering update only when not in preview mode) instead of turbo:load to better support turbo frames (turbo:submit-end + request animation frame don't play nicely on Safari).
 
 ### Fixed
-- Components in HTML snippet returned by turbo streams after navigating to different pages are now initialised correctly
+
+-   Components in HTML snippet returned by turbo streams after navigating to different pages are now initialised correctly
 
 ## [v1.0.4] - 2021-04-29
 
@@ -99,7 +104,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Initial Release
 
-[Unreleased]: https://github.com/SimoTod/alpine-turbo-drive-adapter/compare/vv1.0.4...HEAD
+[Unreleased]: https://github.com/SimoTod/alpine-turbo-drive-adapter/compare/v1.1.0...HEAD
+
+[v1.1.0]: https://github.com/SimoTod/alpine-turbo-drive-adapter/compare/v1.0.4...v1.1.0
 
 [v1.0.4]: https://github.com/SimoTod/alpine-turbo-drive-adapter/compare/v1.0.3...vv1.0.4
 
