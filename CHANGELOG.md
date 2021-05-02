@@ -7,10 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
-- Use turbo"render (triggering update only when not in preview mode) instead of turbo:load to better support turbo frames (turbo:submit-end + request animation frame don't play nicely on Safari).
+- Use turbo:render (triggering update only when not in preview mode) instead of turbo:load to better support turbo frames (turbo:submit-end + request animation frame don't play nicely on Safari).
 
 ### Fixed
-- Components in html snippet returned by turbo streams after navigating to different pages are now initialised correctly
+- Components in HTML snippet returned by turbo streams after navigating to different pages are now initialised correctly
 
 ## [v1.0.4] - 2021-04-29
 
