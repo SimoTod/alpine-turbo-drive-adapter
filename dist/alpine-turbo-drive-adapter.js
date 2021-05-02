@@ -84,7 +84,7 @@
         var renderCallback = function renderCallback() {
           // turbo:render fires twice in cached views but we don't want to
           // try to restore Alpine on the preview.
-          if (document.documentElement.hasAttribute("data-turbo-preview")) {
+          if (document.documentElement.hasAttribute('data-turbo-preview')) {
             return;
           }
 
