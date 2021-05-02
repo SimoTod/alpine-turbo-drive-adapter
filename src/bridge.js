@@ -20,8 +20,13 @@ export default class Bridge {
   configureEventHandlers () {
     // Once Turbolinks finished is magic, we initialise Alpine on the new page
     // and resume the observer
+    const renderCallback = () => {
+      // turbo:render fires twice in cached views but we don't want to
+      // try to restore Alpine on the preview.
+      if (document.documentElement.hasAttribute('data-turbo-preview')) {
+        return
+      }
 
-    const initCallback = () => {
       window.Alpine.discoverUninitializedComponents((el) => {
         window.Alpine.initializeComponent(el)
       })
@@ -86,24 +91,23 @@ export default class Bridge {
       })
     }
 
+    // Streams do not trigger a render event and there is no
+    // turbo:after-stream-render so we use turbo:before-stream-render
+    // and we delay 2 ticks to simulate the after-stream-render event
     const beforeStreamFormRenderCallback = () => {
-      // In theory, 2 frames would be enough for everyone but Safari
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            initCallback()
-          })
+          renderCallback()
         })
       })
     }
 
-    document.addEventListener('turbo:load', initCallback)
-    document.addEventListener('turbolinks:load', initCallback)
+    document.addEventListener('turbo:render', renderCallback)
+    document.addEventListener('turbolinks:load', renderCallback)
     document.addEventListener('turbo:before-render', beforeRenderCallback)
     document.addEventListener('turbolinks:before-render', beforeRenderCallback)
     document.addEventListener('turbo:before-cache', beforeCacheCallback)
     document.addEventListener('turbolinks:before-cache', beforeCacheCallback)
     document.addEventListener('turbo:before-stream-render', beforeStreamFormRenderCallback)
-    document.addEventListener('turbo:submit-end', beforeStreamFormRenderCallback)
   }
 }
