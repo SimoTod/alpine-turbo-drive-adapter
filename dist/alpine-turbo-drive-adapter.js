@@ -72,7 +72,7 @@
           throw new Error('Invalid Alpine version. Please use Alpine 2.4.0 or above');
         }
 
-        window.Alpine.pauseMutationObserver = state;
+        window.Alpine.pauseMutationObserver = !state;
       }
     }, {
       key: "configureEventHandlers",
@@ -81,12 +81,18 @@
 
         // Once Turbolinks finished is magic, we initialise Alpine on the new page
         // and resume the observer
-        var initCallback = function initCallback() {
+        var renderCallback = function renderCallback() {
+          // turbo:render fires twice in cached views but we don't want to
+          // try to restore Alpine on the preview.
+          if (document.documentElement.hasAttribute('data-turbo-preview')) {
+            return;
+          }
+
           window.Alpine.discoverUninitializedComponents(function (el) {
             window.Alpine.initializeComponent(el);
           });
           requestAnimationFrame(function () {
-            _this.setMutationObserverState(false);
+            _this.setMutationObserverState(true);
           });
         }; // Before swapping the body, clean up any element with x-turbolinks-cached
         // which do not have any Alpine properties.
@@ -125,7 +131,7 @@
 
 
         var beforeCacheCallback = function beforeCacheCallback() {
-          _this.setMutationObserverState(true);
+          _this.setMutationObserverState(false);
 
           document.body.querySelectorAll('[x-for],[x-if],[data-alpine-was-cloaked]').forEach(function (el) {
             // Cloak any elements again that were tagged when the page was loaded
@@ -152,26 +158,26 @@
               }
             }
           });
-        };
+        }; // Streams do not trigger a render event and there is no
+        // turbo:after-stream-render so we use turbo:before-stream-render
+        // and we delay 2 ticks to simulate the after-stream-render event
 
-        var beforeStreamRenderCallback = function beforeStreamRenderCallback() {
-          // In theory, 2 frames would be enough for everyone but Safari
+
+        var beforeStreamFormRenderCallback = function beforeStreamFormRenderCallback() {
           requestAnimationFrame(function () {
             requestAnimationFrame(function () {
-              requestAnimationFrame(function () {
-                initCallback();
-              });
+              renderCallback();
             });
           });
         };
 
-        document.addEventListener('turbo:load', initCallback);
-        document.addEventListener('turbolinks:load', initCallback);
+        document.addEventListener('turbo:render', renderCallback);
+        document.addEventListener('turbolinks:load', renderCallback);
         document.addEventListener('turbo:before-render', beforeRenderCallback);
         document.addEventListener('turbolinks:before-render', beforeRenderCallback);
         document.addEventListener('turbo:before-cache', beforeCacheCallback);
         document.addEventListener('turbolinks:before-cache', beforeCacheCallback);
-        document.addEventListener('turbo:submit-end', beforeStreamRenderCallback);
+        document.addEventListener('turbo:before-stream-render', beforeStreamFormRenderCallback);
       }
     }]);
 

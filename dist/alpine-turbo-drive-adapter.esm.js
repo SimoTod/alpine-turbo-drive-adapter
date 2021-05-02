@@ -1,8 +1,8 @@
 function isValidVersion(required, current) {
-  const requiredArray = required.split('.');
-  const currentArray = current.split('.');
+  var requiredArray = required.split('.');
+  var currentArray = current.split('.');
 
-  for (let i = 0; i < requiredArray.length; i++) {
+  for (var i = 0; i < requiredArray.length; i++) {
     if (!currentArray[i] || currentArray[i] < requiredArray[i]) {
       return false;
     }
@@ -26,7 +26,9 @@ class Bridge {
   init() {
     // Tag all cloaked elements on first page load.
     document.body.querySelectorAll('[x-cloak]').forEach(el => {
-      el.setAttribute('data-alpine-was-cloaked', el.getAttribute('x-cloak') ?? '');
+      var _el$getAttribute;
+
+      el.setAttribute('data-alpine-was-cloaked', (_el$getAttribute = el.getAttribute('x-cloak')) !== null && _el$getAttribute !== void 0 ? _el$getAttribute : '');
     });
     this.configureEventHandlers();
   }
@@ -36,18 +38,24 @@ class Bridge {
       throw new Error('Invalid Alpine version. Please use Alpine 2.4.0 or above');
     }
 
-    window.Alpine.pauseMutationObserver = state;
+    window.Alpine.pauseMutationObserver = !state;
   }
 
   configureEventHandlers() {
     // Once Turbolinks finished is magic, we initialise Alpine on the new page
     // and resume the observer
-    const initCallback = () => {
+    var renderCallback = () => {
+      // turbo:render fires twice in cached views but we don't want to
+      // try to restore Alpine on the preview.
+      if (document.documentElement.hasAttribute('data-turbo-preview')) {
+        return;
+      }
+
       window.Alpine.discoverUninitializedComponents(el => {
         window.Alpine.initializeComponent(el);
       });
       requestAnimationFrame(() => {
-        this.setMutationObserverState(false);
+        this.setMutationObserverState(true);
       });
     }; // Before swapping the body, clean up any element with x-turbolinks-cached
     // which do not have any Alpine properties.
@@ -56,13 +64,15 @@ class Bridge {
     // and custom properties and we don't want to reset them.
 
 
-    const beforeRenderCallback = event => {
-      const newBody = event.data ? event.data.newBody : event.detail.newBody;
+    var beforeRenderCallback = event => {
+      var newBody = event.data ? event.data.newBody : event.detail.newBody;
       newBody.querySelectorAll('[data-alpine-generated-me],[x-cloak]').forEach(el => {
         if (el.hasAttribute('x-cloak')) {
+          var _el$getAttribute2;
+
           // When we get a new document body tag any cloaked elements so we can cloak
           // them again before caching.
-          el.setAttribute('data-alpine-was-cloaked', el.getAttribute('x-cloak') ?? '');
+          el.setAttribute('data-alpine-was-cloaked', (_el$getAttribute2 = el.getAttribute('x-cloak')) !== null && _el$getAttribute2 !== void 0 ? _el$getAttribute2 : '');
         }
 
         if (el.hasAttribute('data-alpine-generated-me')) {
@@ -83,51 +93,53 @@ class Bridge {
     // The coping process happens somewhere between before-cache and before-render.
 
 
-    const beforeCacheCallback = () => {
-      this.setMutationObserverState(true);
+    var beforeCacheCallback = () => {
+      this.setMutationObserverState(false);
       document.body.querySelectorAll('[x-for],[x-if],[data-alpine-was-cloaked]').forEach(el => {
         // Cloak any elements again that were tagged when the page was loaded
         if (el.hasAttribute('data-alpine-was-cloaked')) {
-          el.setAttribute('x-cloak', el.getAttribute('data-alpine-was-cloaked') ?? '');
+          var _el$getAttribute3;
+
+          el.setAttribute('x-cloak', (_el$getAttribute3 = el.getAttribute('data-alpine-was-cloaked')) !== null && _el$getAttribute3 !== void 0 ? _el$getAttribute3 : '');
           el.removeAttribute('data-alpine-was-cloaked');
         }
 
         if (el.hasAttribute('x-for')) {
-          let nextEl = el.nextElementSibling;
+          var nextEl = el.nextElementSibling;
 
           while (nextEl && typeof nextEl.__x_for_key !== 'undefined') {
-            const currEl = nextEl;
+            var currEl = nextEl;
             nextEl = nextEl.nextElementSibling;
             currEl.setAttribute('data-alpine-generated-me', true);
           }
         } else if (el.hasAttribute('x-if')) {
-          const ifEl = el.nextElementSibling;
+          var ifEl = el.nextElementSibling;
 
           if (ifEl && typeof ifEl.__x_inserted_me !== 'undefined') {
             ifEl.setAttribute('data-alpine-generated-me', true);
           }
         }
       });
-    };
+    }; // Streams do not trigger a render event and there is no
+    // turbo:after-stream-render so we use turbo:before-stream-render
+    // and we delay 2 ticks to simulate the after-stream-render event
 
-    const beforeStreamRenderCallback = () => {
-      // In theory, 2 frames would be enough for everyone but Safari
+
+    var beforeStreamFormRenderCallback = () => {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            initCallback();
-          });
+          renderCallback();
         });
       });
     };
 
-    document.addEventListener('turbo:load', initCallback);
-    document.addEventListener('turbolinks:load', initCallback);
+    document.addEventListener('turbo:render', renderCallback);
+    document.addEventListener('turbolinks:load', renderCallback);
     document.addEventListener('turbo:before-render', beforeRenderCallback);
     document.addEventListener('turbolinks:before-render', beforeRenderCallback);
     document.addEventListener('turbo:before-cache', beforeCacheCallback);
     document.addEventListener('turbolinks:before-cache', beforeCacheCallback);
-    document.addEventListener('turbo:submit-end', beforeStreamRenderCallback);
+    document.addEventListener('turbo:before-stream-render', beforeStreamFormRenderCallback);
   }
 
 }
@@ -144,6 +156,6 @@ if (!Object.getOwnPropertyDescriptor(NodeList.prototype, 'forEach')) {
 
 
 beforeDomReady(() => {
-  const bridge = new Bridge();
+  var bridge = new Bridge();
   bridge.init();
 });

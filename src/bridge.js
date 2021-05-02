@@ -14,19 +14,24 @@ export default class Bridge {
     if (!window.Alpine.version || !isValidVersion('2.4.0', window.Alpine.version)) {
       throw new Error('Invalid Alpine version. Please use Alpine 2.4.0 or above')
     }
-    window.Alpine.pauseMutationObserver = state
+    window.Alpine.pauseMutationObserver = !state
   }
 
   configureEventHandlers () {
     // Once Turbolinks finished is magic, we initialise Alpine on the new page
     // and resume the observer
+    const renderCallback = () => {
+      // turbo:render fires twice in cached views but we don't want to
+      // try to restore Alpine on the preview.
+      if (document.documentElement.hasAttribute('data-turbo-preview')) {
+        return
+      }
 
-    const initCallback = () => {
       window.Alpine.discoverUninitializedComponents((el) => {
         window.Alpine.initializeComponent(el)
       })
 
-      requestAnimationFrame(() => { this.setMutationObserverState(false) })
+      requestAnimationFrame(() => { this.setMutationObserverState(true) })
     }
 
     // Before swapping the body, clean up any element with x-turbolinks-cached
@@ -61,7 +66,7 @@ export default class Bridge {
     // marked as data-turbolinks-permanent they need to be copied into the next page.
     // The coping process happens somewhere between before-cache and before-render.
     const beforeCacheCallback = () => {
-      this.setMutationObserverState(true)
+      this.setMutationObserverState(false)
 
       document.body.querySelectorAll('[x-for],[x-if],[data-alpine-was-cloaked]').forEach((el) => {
         // Cloak any elements again that were tagged when the page was loaded
@@ -86,23 +91,23 @@ export default class Bridge {
       })
     }
 
-    const beforeStreamRenderCallback = () => {
-      // In theory, 2 frames would be enough for everyone but Safari
+    // Streams do not trigger a render event and there is no
+    // turbo:after-stream-render so we use turbo:before-stream-render
+    // and we delay 2 ticks to simulate the after-stream-render event
+    const beforeStreamFormRenderCallback = () => {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            initCallback()
-          })
+          renderCallback()
         })
       })
     }
 
-    document.addEventListener('turbo:load', initCallback)
-    document.addEventListener('turbolinks:load', initCallback)
+    document.addEventListener('turbo:render', renderCallback)
+    document.addEventListener('turbolinks:load', renderCallback)
     document.addEventListener('turbo:before-render', beforeRenderCallback)
     document.addEventListener('turbolinks:before-render', beforeRenderCallback)
     document.addEventListener('turbo:before-cache', beforeCacheCallback)
     document.addEventListener('turbolinks:before-cache', beforeCacheCallback)
-    document.addEventListener('turbo:submit-end', beforeStreamRenderCallback)
+    document.addEventListener('turbo:before-stream-render', beforeStreamFormRenderCallback)
   }
 }
