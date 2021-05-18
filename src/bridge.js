@@ -31,6 +31,21 @@ export default class Bridge {
         window.Alpine.initializeComponent(el)
       })
 
+      Array.from(document.getElementsByTagName('turbo-frame')).forEach((target) => {
+        // Skip if already observed or not lazy turbo-frame
+        if (target.getAttribute('data-alpine-frame-observed') || !target.getAttribute('src')) return
+        // Mark as observed to avoid attaching a new mutation observer every time
+        target.setAttribute('data-alpine-frame-observed', true)
+
+        const observer = new MutationObserver(() => {
+          window.Alpine.discoverUninitializedComponents(function (el) {
+            window.Alpine.initializeComponent(el)
+          }, target)
+        })
+
+        observer.observe(target, { childList: true })
+      })
+
       requestAnimationFrame(() => { this.setMutationObserverState(true) })
     }
 
@@ -68,10 +83,13 @@ export default class Bridge {
     const beforeCacheCallback = () => {
       this.setMutationObserverState(false)
 
-      document.body.querySelectorAll('[x-for],[x-if],[data-alpine-was-cloaked]').forEach((el) => {
+      document.body.querySelectorAll('[x-for],[x-if],[data-alpine-was-cloaked],turbo-frame').forEach((el) => {
         // Cloak any elements again that were tagged when the page was loaded
         if (el.hasAttribute('data-alpine-was-cloaked')) {
           el.setAttribute('x-cloak', el.getAttribute('data-alpine-was-cloaked') ?? '')
+          el.removeAttribute('data-alpine-was-cloaked')
+        }
+        if (el.hasAttribute('data-alpine-frame-observed')) {
           el.removeAttribute('data-alpine-was-cloaked')
         }
 
