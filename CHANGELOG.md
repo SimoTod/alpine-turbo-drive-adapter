@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+-   Lazy loaded turbo-frames containing ALpine elements are now fully supported
+
 ## [v1.1.0] - 2021-05-02
 
 ### Changed
