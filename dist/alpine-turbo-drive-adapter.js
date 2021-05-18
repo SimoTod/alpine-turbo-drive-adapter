@@ -91,6 +91,20 @@
           window.Alpine.discoverUninitializedComponents(function (el) {
             window.Alpine.initializeComponent(el);
           });
+          Array.from(document.getElementsByTagName("turbo-frame")).forEach(function (target) {
+            // Skip if already observed or not lazy turbo-frame
+            if (target.getAttribute('data-alpine-frame-observed') || !target.getAttribute('src')) return; // Mark as observed to avoid attaching a new mutation observer every time
+
+            target.setAttribute('data-alpine-frame-observed', true);
+            var observer = new MutationObserver(function () {
+              window.Alpine.discoverUninitializedComponents(function (el) {
+                window.Alpine.initializeComponent(el);
+              }, target);
+            });
+            observer.observe(target, {
+              childList: true
+            });
+          });
           requestAnimationFrame(function () {
             _this.setMutationObserverState(true);
           });
@@ -133,12 +147,16 @@
         var beforeCacheCallback = function beforeCacheCallback() {
           _this.setMutationObserverState(false);
 
-          document.body.querySelectorAll('[x-for],[x-if],[data-alpine-was-cloaked]').forEach(function (el) {
+          document.body.querySelectorAll('[x-for],[x-if],[data-alpine-was-cloaked],turbo-frame').forEach(function (el) {
             // Cloak any elements again that were tagged when the page was loaded
             if (el.hasAttribute('data-alpine-was-cloaked')) {
               var _el$getAttribute3;
 
               el.setAttribute('x-cloak', (_el$getAttribute3 = el.getAttribute('data-alpine-was-cloaked')) !== null && _el$getAttribute3 !== void 0 ? _el$getAttribute3 : '');
+              el.removeAttribute('data-alpine-was-cloaked');
+            }
+
+            if (el.hasAttribute('data-alpine-frame-observed')) {
               el.removeAttribute('data-alpine-was-cloaked');
             }
 
