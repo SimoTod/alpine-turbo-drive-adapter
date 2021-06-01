@@ -102,12 +102,13 @@ export default class Bridge {
       })
     }
 
-    document.addEventListener('turbo:render', renderCallback)
+    document.addEventListener('turbo:load', renderCallback)
     document.addEventListener('turbolinks:load', renderCallback)
     document.addEventListener('turbo:before-render', beforeRenderCallback)
     document.addEventListener('turbolinks:before-render', beforeRenderCallback)
     document.addEventListener('turbo:before-cache', beforeCacheCallback)
     document.addEventListener('turbolinks:before-cache', beforeCacheCallback)
     document.addEventListener('turbo:before-stream-render', beforeStreamFormRenderCallback)
+    document.addEventListener('turbo:submit-end', beforeStreamFormRenderCallback)
   }
 }
