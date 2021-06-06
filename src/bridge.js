@@ -91,24 +91,31 @@ export default class Bridge {
       })
     }
 
-    // Streams do not trigger a render event and there is no
-    // turbo:after-stream-render so we use turbo:before-stream-render
-    // and we delay 2 ticks to simulate the after-stream-render event
-    const beforeStreamFormRenderCallback = () => {
+    const renderAfterTicks = (times = 1) => () => {
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          renderCallback()
-        })
+        if (times > 1) {
+          return renderAfterTicks(times - 1)
+        }
+
+        renderCallback()
       })
     }
 
-    document.addEventListener('turbo:load', renderCallback)
-    document.addEventListener('turbolinks:load', renderCallback)
-    document.addEventListener('turbo:before-render', beforeRenderCallback)
-    document.addEventListener('turbolinks:before-render', beforeRenderCallback)
+    // We were using `turbo:load` but non-200 form submissions replace the page/frame
+    // but no event is fired, except the `turbo:render`. So we need to render after
+    // a tick on the Animation Frame. There seems to be no other way to do this.
+    document.addEventListener('turbo:render', renderAfterTicks(1))
+
+    // Turbo Streams don't dispatch a custom render event after they are applied.
+    // Because of that, we need to boot Alpine after 2 animation frame ticks,
+    // since Turbo uses 1 animation frame tick to render the templates.
+    document.addEventListener('turbo:before-stream-render', renderAfterTicks(2))
+
     document.addEventListener('turbo:before-cache', beforeCacheCallback)
+    document.addEventListener('turbo:before-render', beforeRenderCallback)
+
+    document.addEventListener('turbolinks:load', renderCallback)
+    document.addEventListener('turbolinks:before-render', beforeRenderCallback)
     document.addEventListener('turbolinks:before-cache', beforeCacheCallback)
-    document.addEventListener('turbo:before-stream-render', beforeStreamFormRenderCallback)
-    document.addEventListener('turbo:submit-end', beforeStreamFormRenderCallback)
   }
 }
