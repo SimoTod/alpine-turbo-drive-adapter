@@ -5,6 +5,9 @@ export function isValidVersion (required, current) {
     if (!currentArray[i] || currentArray[i] < requiredArray[i]) {
       return false
     }
+    else 
+    if (currentArray[i] && currentArray[i] > requiredArray[i]) {
+      return true
   }
   return true
 }
