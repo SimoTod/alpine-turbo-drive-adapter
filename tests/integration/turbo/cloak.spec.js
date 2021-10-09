@@ -8,7 +8,7 @@ describe('x-cloak directives', () => {
     cy.get('span').should('have.attr', 'data-alpine-was-cloaked')
   })
 
-  it('should tag x-cloak items when navigating with turbolinks', () => {
+  it('should tag x-cloak items when navigating with turbo', () => {
     cy.visit('/tests/res/turbo/cloak/index.html')
 
     // Navigate to the second page
