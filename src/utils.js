@@ -2,21 +2,20 @@ export function isValidVersion (required, current) {
   const requiredArray = required.split('.')
   const currentArray = current.split('.')
   for (let i = 0; i < requiredArray.length; i++) {
-    if (!currentArray[i] || currentArray[i] < requiredArray[i]) {
-      return false
+    if (currentArray[i] && currentArray[i] > requiredArray[i]) {
+      return true
     }
   }
-  return true
+  return currentArray[requiredArray.length - 1] === requiredArray[requiredArray.length - 1]
 }
 
-export function beforeDomReady (callback) {
-  if (document.readyState === 'loading') {
-    document.addEventListener('readystatechange', () => {
-      if (document.readyState === 'interactive') {
-        callback()
-      }
+export function dispatch (el, name, detail = {}) {
+  el.dispatchEvent(
+    new CustomEvent(name, {
+      detail,
+      bubbles: true,
+      composed: true,
+      cancelable: true
     })
-  } else {
-    callback()
-  }
+  )
 }

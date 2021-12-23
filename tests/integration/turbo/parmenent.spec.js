@@ -11,7 +11,7 @@ describe('data-turbolinks-permanent elements', () => {
 
     // Navigate to the second page
     cy.get('a').click()
-    cy.url().should('equal', 'http://127.0.0.1:8080/tests/res/turbo/permanent/target.html')
+    cy.url().should('equal', 'http://localhost:8080/tests/res/turbo/permanent/target.html')
 
     // foo should preserve the value from the previous component
     cy.get('span').contains(/^bar2$/)
@@ -31,7 +31,7 @@ describe('data-turbolinks-permanent elements', () => {
 
     // Navigate to the second page
     cy.get('a').click()
-    cy.url().should('equal', 'http://127.0.0.1:8080/tests/res/turbo/permanent-for/target.html')
+    cy.url().should('equal', 'http://localhost:8080/tests/res/turbo/permanent-for/target.html')
 
     // test
     cy.get('div').find('span').should('have.length', 3)

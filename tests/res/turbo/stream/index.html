@@ -2,7 +2,7 @@
   <head>
     <script type="module" src="https://cdn.skypack.dev/@hotwired/turbo" crossorigin="anonymous"></script>
     <script src="/dist/alpine-turbo-drive-adapter.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
   </head>
 
   <body>
@@ -12,7 +12,7 @@
       <span>Waiting...</span>
     </div>
 
-    <form method="post" action="./stream">
+    <form method="post" action="http://localhost:8080/stream">
       <input type="submit">
     </form>
   </body>

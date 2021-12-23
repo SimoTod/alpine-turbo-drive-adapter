@@ -9,11 +9,11 @@ describe('x-if directives', () => {
 
     // Navigate to the second page
     cy.get('a').click()
-    cy.url().should('equal', 'http://127.0.0.1:8080/tests/res/turbo/if/target.html')
+    cy.url().should('equal', 'http://localhost:8080/tests/res/turbo/if/target.html')
 
     // Navigate back
     cy.go('back')
-    cy.url().should('equal', 'http://127.0.0.1:8080/tests/res/turbo/if/index.html')
+    cy.url().should('equal', 'http://localhost:8080/tests/res/turbo/if/index.html')
 
     // test
     cy.get('div').find('span').should('have.length', 1)

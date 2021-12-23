@@ -9,11 +9,11 @@ describe('x-for directives', () => {
 
     // Navigate to the second page
     cy.get('a').click()
-    cy.url().should('equal', 'http://127.0.0.1:8080/tests/res/turbo/for/target.html')
+    cy.url().should('equal', 'http://localhost:8080/tests/res/turbo/for/target.html')
 
     // Navigate back
     cy.go('back')
-    cy.url().should('equal', 'http://127.0.0.1:8080/tests/res/turbo/for/index.html')
+    cy.url().should('equal', 'http://localhost:8080/tests/res/turbo/for/index.html')
 
     // Test
     cy.get('div').find('span').should('have.length', 2)
@@ -30,11 +30,11 @@ describe('x-for directives', () => {
 
     // Navigate to the second page
     cy.get('a').click()
-    cy.url().should('equal', 'http://127.0.0.1:8080/tests/res/turbo/for-siblings/target.html')
+    cy.url().should('equal', 'http://localhost:8080/tests/res/turbo/for-siblings/target.html')
 
     // Navigate back
     cy.go('back')
-    cy.url().should('equal', 'http://127.0.0.1:8080/tests/res/turbo/for-siblings/index.html')
+    cy.url().should('equal', 'http://localhost:8080/tests/res/turbo/for-siblings/index.html')
 
     // Tests
     cy.get('div').find('template').should('have.length', 2)
