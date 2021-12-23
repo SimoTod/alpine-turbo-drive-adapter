@@ -1,7 +1,7 @@
 /* global describe, it, cy */
 
 describe('turbo-stream', () => {
-  it('should render correctly when navigating away and back', () => {
+  it.skip('should render correctly when navigating away and back', () => {
     // Mock for response
     const streamMessage = '<turbo-stream action="replace" target="stream">' +
       '<template>' +
