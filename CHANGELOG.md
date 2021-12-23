@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.0.0] - 2021-12-23
+
 ## [v1.1.0] - 2021-05-02
 
 ### Changed
@@ -104,7 +106,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Initial Release
 
-[Unreleased]: https://github.com/SimoTod/alpine-turbo-drive-adapter/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/SimoTod/alpine-turbo-drive-adapter/compare/v2.0.0...HEAD
+
+[v2.0.0]: https://github.com/SimoTod/alpine-turbo-drive-adapter/compare/v1.1.0...v2.0.0
 
 [v1.1.0]: https://github.com/SimoTod/alpine-turbo-drive-adapter/compare/v1.0.4...v1.1.0
 
