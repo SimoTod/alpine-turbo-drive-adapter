@@ -2,6 +2,5 @@
   "video": false,
   "pluginsFile": false,
   "supportFile": "tests/bootstrap.js",
-  "integrationFolder": "tests/integration",
-  "baseUrl": "http://127.0.0.1:8080"
+  "integrationFolder": "tests/integration"
 }

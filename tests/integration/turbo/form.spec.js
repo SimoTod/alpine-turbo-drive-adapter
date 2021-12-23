@@ -4,7 +4,7 @@ describe('form submission', () => {
   it('should not break alpine when an error occours', () => {
     const page = '<div x-data="{foo: \'bar\'}"><span x-text="foo"></span></div>'
 
-    cy.intercept('POST', 'http://127.0.0.1:8080/tests/res/turbo/form/error.html', {
+    cy.intercept('POST', 'http://localhost:8080/tests/res/turbo/form/error.html', {
       statusCode: 422,
       body: page,
       headers: {
