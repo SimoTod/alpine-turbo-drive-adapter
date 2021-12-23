@@ -9,7 +9,7 @@
     <a href="/tests/res/turbo/cloakCustom/target.html">go to target</a>
 
     <div x-data="{ open: false }">
-      <button id='toggler' x-cloak @click="open = true">Opener</button>
+      <button id='toggler' @click="open = true">Opener</button>
       <span x-show="open" x-cloak="mobile">Hidden</span>
     </div>
   </body>

@@ -27,10 +27,12 @@ class Bridge {
     } // Tag all cloaked elements on first page load.
 
 
-    document.body.querySelectorAll('[x-cloak]').forEach(el => {
-      var _el$getAttribute;
+    window.Alpine.mutateDom(() => {
+      document.body.querySelectorAll('[x-cloak]').forEach(el => {
+        var _el$getAttribute;
 
-      el.setAttribute('data-alpine-was-cloaked', (_el$getAttribute = el.getAttribute('x-cloak')) !== null && _el$getAttribute !== void 0 ? _el$getAttribute : '');
+        el.setAttribute('data-alpine-was-cloaked', (_el$getAttribute = el.getAttribute('x-cloak')) !== null && _el$getAttribute !== void 0 ? _el$getAttribute : '');
+      });
     });
     this.configureEventHandlers();
   }
@@ -45,57 +47,65 @@ class Bridge {
       dispatch(document, 'alpine:initializing');
       window.Alpine.flushAndStopDeferringMutations();
       dispatch(document, 'alpine:initialised');
-      document.querySelectorAll('[data-alpine-ignored]').forEach(el => {
-        el.removeAttribute('x-ignore');
-        el.removeAttribute('data-alpine-ignored');
+      window.Alpine.mutateDom(() => {
+        document.querySelectorAll('[data-alpine-ignored]').forEach(el => {
+          el.removeAttribute('x-ignore');
+          el.removeAttribute('data-alpine-ignored');
+        });
       });
     };
 
     var beforeRenderCallback = event => {
-      if (document.documentElement.hasAttribute('data-turbo-preview')) {
-        return;
-      }
-
-      event.detail.newBody.querySelectorAll('[data-alpine-generated-me],[x-cloak]').forEach(el => {
-        if (el.hasAttribute('x-cloak')) {
-          var _el$getAttribute2;
-
-          el.setAttribute('data-alpine-was-cloaked', (_el$getAttribute2 = el.getAttribute('x-cloak')) !== null && _el$getAttribute2 !== void 0 ? _el$getAttribute2 : '');
+      window.Alpine.mutateDom(() => {
+        if (document.documentElement.hasAttribute('data-turbo-preview')) {
+          return;
         }
 
-        if (el.hasAttribute('data-alpine-generated-me')) {
-          el.removeAttribute('data-alpine-generated-me');
-          el.remove();
-        }
+        event.detail.newBody.querySelectorAll('[data-alpine-generated-me],[x-cloak]').forEach(el => {
+          if (el.hasAttribute('x-cloak')) {
+            var _el$getAttribute2;
+
+            el.setAttribute('data-alpine-was-cloaked', (_el$getAttribute2 = el.getAttribute('x-cloak')) !== null && _el$getAttribute2 !== void 0 ? _el$getAttribute2 : '');
+          }
+
+          if (el.hasAttribute('data-alpine-generated-me')) {
+            el.removeAttribute('data-alpine-generated-me');
+            el.remove();
+          }
+        });
       });
       window.Alpine.deferMutations();
     };
 
     var beforeCacheCallback = event => {
-      document.body.querySelectorAll('[x-for],[x-if],[data-alpine-was-cloaked]').forEach(el => {
-        if (el.hasAttribute('data-alpine-was-cloaked')) {
-          var _el$getAttribute3;
+      window.Alpine.mutateDom(() => {
+        document.body.querySelectorAll('[x-for],[x-if],[data-alpine-was-cloaked]').forEach(el => {
+          if (el.hasAttribute('data-alpine-was-cloaked')) {
+            var _el$getAttribute3;
 
-          el.setAttribute('x-cloak', (_el$getAttribute3 = el.getAttribute('data-alpine-was-cloaked')) !== null && _el$getAttribute3 !== void 0 ? _el$getAttribute3 : '');
-          el.removeAttribute('data-alpine-was-cloaked');
-        }
+            el.setAttribute('x-cloak', (_el$getAttribute3 = el.getAttribute('data-alpine-was-cloaked')) !== null && _el$getAttribute3 !== void 0 ? _el$getAttribute3 : '');
+            el.removeAttribute('data-alpine-was-cloaked');
+          }
 
-        if (el.hasAttribute('x-for') && el._x_lookup) {
-          Object.values(el._x_lookup).forEach(el => el.setAttribute('data-alpine-generated-me', true));
-        }
+          if (el.hasAttribute('x-for') && el._x_lookup) {
+            Object.values(el._x_lookup).forEach(el => el.setAttribute('data-alpine-generated-me', true));
+          }
 
-        if (el.hasAttribute('x-if') && el._x_currentIfEl) {
-          el._x_currentIfEl.setAttribute('data-alpine-generated-me', true);
-        }
+          if (el.hasAttribute('x-if') && el._x_currentIfEl) {
+            el._x_currentIfEl.setAttribute('data-alpine-generated-me', true);
+          }
+        });
       });
       document.querySelectorAll('[data-turbo-permanent]').forEach(el => {
-        if (!el.hasAttribute('x-ignore')) {
-          el.setAttribute('x-ignore', true);
-          el.setAttribute('data-alpine-ignored', true);
-        }
+        window.Alpine.mutateDom(() => {
+          if (!el.hasAttribute('x-ignore')) {
+            el.setAttribute('x-ignore', true);
+            el.setAttribute('data-alpine-ignored', true);
+          }
 
-        el.querySelectorAll('[data-alpine-generated-me]').forEach(sub => {
-          sub.removeAttribute('data-alpine-generated-me');
+          el.querySelectorAll('[data-alpine-generated-me]').forEach(sub => {
+            sub.removeAttribute('data-alpine-generated-me');
+          });
         });
       });
     };
