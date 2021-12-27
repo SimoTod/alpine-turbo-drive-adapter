@@ -13,7 +13,7 @@ If you look for the Alpine v2 version, look at the [1.x branch](https://github.c
 ## Install
 
 ### From CDN
-Just include `<script src="https://cdn.jsdelivr.net/npm/alpine-turbo-drive-adapter2.0.x/dist/alpine-turbo-drive-adapter.min.js" defer></script>` before your Alpine script in your page
+Just include `<script src="https://cdn.jsdelivr.net/npm/alpine-turbo-drive-adapter@2.0.x/dist/alpine-turbo-drive-adapter.min.js" defer></script>` before your Alpine script in your page
 
 ### From NPM
  Install the package
