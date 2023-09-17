@@ -53,7 +53,7 @@ export default class Bridge {
 
     const beforeCacheCallback = (event) => {
       window.Alpine.mutateDom(() => {
-        document.body.querySelectorAll('[x-for],[x-if],[data-alpine-was-cloaked]').forEach((el) => {
+        document.body.querySelectorAll('[x-for],[x-if],[x-teleport],[data-alpine-was-cloaked]').forEach((el) => {
           if (el.hasAttribute('data-alpine-was-cloaked')) {
             el.setAttribute('x-cloak', el.getAttribute('data-alpine-was-cloaked') ?? '')
             el.removeAttribute('data-alpine-was-cloaked')
@@ -65,6 +65,10 @@ export default class Bridge {
 
           if (el.hasAttribute('x-if') && el._x_currentIfEl) {
             el._x_currentIfEl.setAttribute('data-alpine-generated-me', true)
+          }
+          
+          if (el.hasAttribute('x-teleport') && el._x_teleport) {
+            el._x_teleport.setAttribute('data-alpine-generated-me', true)
           }
         })
       })
