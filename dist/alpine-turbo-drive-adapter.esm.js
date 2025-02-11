@@ -115,7 +115,10 @@ class Bridge {
     };
 
     document.addEventListener('turbo:render', renderCallback);
+    document.addEventListener('turbo:morph', renderCallback);
     document.addEventListener('turbo:before-render', beforeRenderCallback);
+    document.addEventListener('turbo:before-morph-element', beforeRenderCallback);
+    document.addEventListener('turbo:before-morph-attribute', beforeRenderCallback);
     document.addEventListener('turbo:before-cache', beforeCacheCallback);
   }
 
