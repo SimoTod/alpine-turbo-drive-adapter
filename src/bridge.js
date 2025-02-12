@@ -34,11 +34,19 @@ export default class Bridge {
     }
 
     const beforeRenderCallback = (event) => {
+      processAlpineElements(event.detail.newBody)
+    }
+
+    const beforeMorphCallback = (event) => {
+      processAlpineElements(event.detail.newElement)
+    }
+
+    const processAlpineElements = (element) => {
       window.Alpine.mutateDom(() => {
         if (document.documentElement.hasAttribute('data-turbo-preview')) {
           return
         }
-        event.detail.newBody.querySelectorAll('[data-alpine-generated-me],[x-cloak]').forEach((el) => {
+        element.querySelectorAll('[data-alpine-generated-me],[x-cloak]').forEach((el) => {
           if (el.hasAttribute('x-cloak')) {
             el.setAttribute('data-alpine-was-cloaked', el.getAttribute('x-cloak') ?? '')
           }
@@ -66,7 +74,7 @@ export default class Bridge {
           if (el.hasAttribute('x-if') && el._x_currentIfEl) {
             el._x_currentIfEl.setAttribute('data-alpine-generated-me', true)
           }
-          
+
           if (el.hasAttribute('x-teleport') && el._x_teleport) {
             el._x_teleport.setAttribute('data-alpine-generated-me', true)
           }
@@ -87,10 +95,9 @@ export default class Bridge {
     }
 
     document.addEventListener('turbo:render', renderCallback)
-    document.addEventListener('turbo:morph', renderCallback);
+    document.addEventListener('turbo:morph', renderCallback)
     document.addEventListener('turbo:before-render', beforeRenderCallback)
-    document.addEventListener('turbo:before-morph-element', beforeRenderCallback);
-    document.addEventListener('turbo:before-morph-attribute', beforeRenderCallback);
+    document.addEventListener('turbo:before-morph-element', beforeMorphCallback)
     document.addEventListener('turbo:before-cache', beforeCacheCallback)
   }
 }

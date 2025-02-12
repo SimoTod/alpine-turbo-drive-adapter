@@ -93,12 +93,20 @@
         };
 
         var beforeRenderCallback = function beforeRenderCallback(event) {
+          processAlpineElements(event.detail.newBody);
+        };
+
+        var beforeMorphCallback = function beforeMorphCallback(event) {
+          processAlpineElements(event.detail.newElement);
+        };
+
+        var processAlpineElements = function processAlpineElements(element) {
           window.Alpine.mutateDom(function () {
             if (document.documentElement.hasAttribute('data-turbo-preview')) {
               return;
             }
 
-            event.detail.newBody.querySelectorAll('[data-alpine-generated-me],[x-cloak]').forEach(function (el) {
+            element.querySelectorAll('[data-alpine-generated-me],[x-cloak]').forEach(function (el) {
               if (el.hasAttribute('x-cloak')) {
                 var _el$getAttribute2;
 
@@ -156,8 +164,7 @@
         document.addEventListener('turbo:render', renderCallback);
         document.addEventListener('turbo:morph', renderCallback);
         document.addEventListener('turbo:before-render', beforeRenderCallback);
-        document.addEventListener('turbo:before-morph-element', beforeRenderCallback);
-        document.addEventListener('turbo:before-morph-attribute', beforeRenderCallback);
+        document.addEventListener('turbo:before-morph-element', beforeMorphCallback);
         document.addEventListener('turbo:before-cache', beforeCacheCallback);
       }
     }]);
