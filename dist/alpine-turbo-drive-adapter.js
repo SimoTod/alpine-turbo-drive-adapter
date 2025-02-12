@@ -92,6 +92,19 @@
           });
         };
 
+        var morphCallback = function morphCallback(event) {
+          renderCallback();
+          window.Alpine.mutateDom(function () {
+            var _element$querySelecto;
+
+            var element = event.detail.currentElement;
+            element === null || element === void 0 ? void 0 : (_element$querySelecto = element.querySelectorAll('[x-data]')) === null || _element$querySelecto === void 0 ? void 0 : _element$querySelecto.forEach(function (el) {
+              window.Alpine.destroyTree(el);
+              window.Alpine.initTree(el, window.Alpine.walk);
+            });
+          });
+        };
+
         var beforeRenderCallback = function beforeRenderCallback(event) {
           processAlpineElements(event.detail.newBody);
         };
@@ -162,10 +175,10 @@
         };
 
         document.addEventListener('turbo:render', renderCallback);
-        document.addEventListener('turbo:morph', renderCallback);
         document.addEventListener('turbo:before-render', beforeRenderCallback);
-        document.addEventListener('turbo:before-morph-element', beforeMorphCallback);
         document.addEventListener('turbo:before-cache', beforeCacheCallback);
+        document.addEventListener('turbo:morph', morphCallback);
+        document.addEventListener('turbo:before-morph-element', beforeMorphCallback);
       }
     }]);
 

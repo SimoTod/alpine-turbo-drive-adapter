@@ -33,6 +33,19 @@ export default class Bridge {
       })
     }
 
+    const morphCallback = (event) => {
+      renderCallback(event)
+
+      window.Alpine.mutateDom(() => {
+        const element = event.detail.currentElement
+
+        element?.querySelectorAll('[x-data]')?.forEach(el => {
+          window.Alpine.destroyTree(el)
+          window.Alpine.initTree(el, window.Alpine.walk)
+        })
+      })
+    }
+
     const beforeRenderCallback = (event) => {
       processAlpineElements(event.detail.newBody)
     }
@@ -95,9 +108,10 @@ export default class Bridge {
     }
 
     document.addEventListener('turbo:render', renderCallback)
-    document.addEventListener('turbo:morph', renderCallback)
     document.addEventListener('turbo:before-render', beforeRenderCallback)
-    document.addEventListener('turbo:before-morph-element', beforeMorphCallback)
     document.addEventListener('turbo:before-cache', beforeCacheCallback)
+
+    document.addEventListener('turbo:morph', morphCallback)
+    document.addEventListener('turbo:before-morph-element', beforeMorphCallback)
   }
 }
