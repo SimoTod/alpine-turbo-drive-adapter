@@ -20,7 +20,6 @@ describe('turbo-stream', () => {
           <script src="/dist/alpine-turbo-drive-adapter.js" defer></script>
           <script src="//unpkg.com/alpinejs" defer></script>
           <meta name="turbo-refresh-method" content="morph">
-          <meta name="turbo-refresh-scroll" content="preserve">
         </head>
         <body>
           <span x-data="{foo: 'bar'}" x-text="foo"></span>
