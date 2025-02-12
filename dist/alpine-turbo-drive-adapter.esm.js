@@ -78,7 +78,7 @@ class Bridge {
 
     var processAlpineElements = element => {
       window.Alpine.mutateDom(() => {
-        if (document.documentElement.hasAttribute('data-turbo-preview')) {
+        if (!element || document.documentElement.hasAttribute('data-turbo-preview')) {
           return;
         }
 

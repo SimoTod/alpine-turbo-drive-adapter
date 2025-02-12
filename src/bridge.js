@@ -56,7 +56,7 @@ export default class Bridge {
 
     const processAlpineElements = (element) => {
       window.Alpine.mutateDom(() => {
-        if (document.documentElement.hasAttribute('data-turbo-preview')) {
+        if (!element || document.documentElement.hasAttribute('data-turbo-preview')) {
           return
         }
         element.querySelectorAll('[data-alpine-generated-me],[x-cloak]').forEach((el) => {

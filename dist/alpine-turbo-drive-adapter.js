@@ -115,7 +115,7 @@
 
         var processAlpineElements = function processAlpineElements(element) {
           window.Alpine.mutateDom(function () {
-            if (document.documentElement.hasAttribute('data-turbo-preview')) {
+            if (!element || document.documentElement.hasAttribute('data-turbo-preview')) {
               return;
             }
 
