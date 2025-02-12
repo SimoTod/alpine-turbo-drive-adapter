@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <script type="module" src="https://cdn.skypack.dev/@hotwired/turbo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo/dist/turbo.es2017-umd.min.js"></script>
     <script src="/dist/alpine-turbo-drive-adapter.js" defer></script>
     <script src="https://unpkg.com/alpinejs" defer></script>
 </head>
@@ -32,7 +32,7 @@
 
     </script>
     <h2>8.4 The components added when pushing the button should be preserved when navigating away and back</h2>
-    <div x-data="componentAdder()" id="t8_4" data-turbolinks-permanent>
+    <div x-data="componentAdder()" id="t8_4" data-turbo-permanent>
         <button @click="add('First')"
             style="width: 50px; height:30px; background-color: lightgrey; margin-bottom: 20px;">Add
             1</button>
@@ -44,7 +44,7 @@
     </div>
 
     <h2>1.1 This component should be preserved and be working in the Second page</h2>
-    <div x-data="{ foo: 'bar' }" id="t1_1" data-turbolinks-permanent>
+    <div x-data="{ foo: 'bar' }" id="t1_1" data-turbo-permanent>
         <input x-model="foo"></input>
 
         <button x-on:click="foo = 'baz'"></button>
@@ -65,21 +65,21 @@
     </div>
 
     <h2>4.0 This component should be preserved and not be logging any errors when navigating to the Second page</h2>
-    <div x-data="{ foo: ['bar', 'baz'] }" id="t4_0" data-turbolinks-permanent>
+    <div x-data="{ foo: ['bar', 'baz'] }" id="t4_0" data-turbo-permanent>
         <template x-for="item4 in foo">
             <span x-text="item4"></span>
         </template>
     </div>
 
     <h2>4.2 This component should be preserved and not be logging any errors when navigating to the Second page</h2>
-    <div x-data="{ foo: ['bar', 'baz'] }" id="t4_2" data-turbolinks-permanent>
+    <div x-data="{ foo: ['bar', 'baz'] }" id="t4_2" data-turbo-permanent>
         <template x-for="item42 in foo">
             <span x-text="item42"></span>
         </template>
     </div>
 
     <h2>5.0 This item should not add duplicate span items nor errors when navigating away and back to this page</h2>
-    <div x-data="{ foo: 'bar' }" id="t5_0" data-turbolinks-permanent>
+    <div x-data="{ foo: 'bar' }" id="t5_0" data-turbo-permanent>
         <div x-data="{ bob: ['bar', 'baz'] }">
             <template x-for="item5 in bob">
                 <span x-text="item5"></span>
@@ -88,7 +88,7 @@
     </div>
 
     <h2>6.3 This item should be preserved when navigating away and back</h2>
-    <div x-data="{ foo: 'bar' }" id="t6_3" data-turbolinks-permanent>
+    <div x-data="{ foo: 'bar' }" id="t6_3" data-turbo-permanent>
         <div x-data="{ open: true }">
             <template x-if="open">
                 <span>Item</span>
@@ -97,7 +97,7 @@
     </div>
 
     <h2>7.0 This item should be preserved when navigating away and back</h2>
-    <div x-data="{ foo: 'bar' }" id="t7_0" data-turbolinks-permanent>
+    <div x-data="{ foo: 'bar' }" id="t7_0" data-turbo-permanent>
         <div x-data="{ open: true }">
             <template x-if="open">
                 <span>Item</span>

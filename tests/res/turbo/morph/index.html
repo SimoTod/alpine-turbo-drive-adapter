@@ -3,12 +3,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo/dist/turbo.es2017-umd.min.js"></script>
     <script src="/dist/alpine-turbo-drive-adapter.js" defer></script>
     <script src="//unpkg.com/alpinejs" defer></script>
+    <meta name="turbo-refresh-method" content="morph">
   </head>
 
   <body>
-    <form action="/tests/res/turbo/form/error.html" method="post" data-turbo-frame="_top">
-      <input name="field" />
-      <input type="submit" value="Submit" />
+    <form method="post" action="http://localhost:8080/stream">
+      <input type="submit">
     </form>
   </body>
 
