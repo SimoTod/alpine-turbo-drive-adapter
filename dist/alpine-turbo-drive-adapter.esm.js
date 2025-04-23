@@ -122,16 +122,27 @@ class Bridge {
 
     var beforeMorphElementCallback = _ref => {
       var {
-        target
+        target,
+        detail: {
+          newElement
+        }
       } = _ref;
-      return delete target._x_marker;
+
+      if (!newElement && target._x_dataStack) {
+        return window.Alpine.destroyTree(target);
+      }
+
+      delete target._x_marker;
     };
 
     var morphElementCallback = _ref2 => {
       var {
-        target
+        target,
+        detail: {
+          newElement
+        }
       } = _ref2;
-      target._x_dataStack && window.Alpine.initTree(target);
+      newElement && target._x_dataStack && window.Alpine.initTree(target);
     };
 
     document.addEventListener('turbo:render', renderCallback);

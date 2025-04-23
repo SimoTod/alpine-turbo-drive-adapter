@@ -7,20 +7,16 @@
   </head>
 
   <body>
-    <div id="main" x-data="{foo: 'abc'}">
+    <div x-data="{foo: 'xyz'}">
       <span x-text="foo"></span>
       <p x-show="foo === 'success'" x-cloak>I'm hidden at first</p>
-      <em x-ignore x-show="foo === 'success'" x-cloak>I'm always visible</em>
+      <template x-teleport="#sub-context">
+        <div id="teleported" x-show="foo === 'success'">Teleported into gray box</div>
+      </template>
 
-      <ol>
-        <template x-for="i in 2">
-          <li x-text="i"></li>
-        </template>
-      </ol>
+      <button @click="foo = 'success'">Change Text</button>
+
+      <div id="sub-context"></div>
     </div>
-
-    <form method="post" action="/morph">
-      <input type="submit">
-    </form>
   </body>
 </html>

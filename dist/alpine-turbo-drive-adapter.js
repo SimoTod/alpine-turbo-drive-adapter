@@ -160,13 +160,20 @@
 
 
         var beforeMorphElementCallback = function beforeMorphElementCallback(_ref) {
-          var target = _ref.target;
-          return delete target._x_marker;
+          var target = _ref.target,
+              newElement = _ref.detail.newElement;
+
+          if (!newElement && target._x_dataStack) {
+            return window.Alpine.destroyTree(target);
+          }
+
+          delete target._x_marker;
         };
 
         var morphElementCallback = function morphElementCallback(_ref2) {
-          var target = _ref2.target;
-          target._x_dataStack && window.Alpine.initTree(target);
+          var target = _ref2.target,
+              newElement = _ref2.detail.newElement;
+          newElement && target._x_dataStack && window.Alpine.initTree(target);
         };
 
         document.addEventListener('turbo:render', renderCallback);

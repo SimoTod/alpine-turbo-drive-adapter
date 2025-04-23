@@ -92,10 +92,16 @@ export default class Bridge {
 
     // This tricks Alpine into reinitializing a already-initialized
     // tree, allowing us to avoid destroying the tree first.
-    const beforeMorphElementCallback = ({ target }) => delete target._x_marker
+    const beforeMorphElementCallback = ({ target, detail: { newElement } }) => {
+      if (!newElement && target._x_dataStack) {
+        return window.Alpine.destroyTree(target)
+      }
 
-    const morphElementCallback = ({ target }) => {
-      target._x_dataStack && window.Alpine.initTree(target)
+      delete target._x_marker
+    }
+
+    const morphElementCallback = ({ target, detail: { newElement } }) => {
+      newElement && target._x_dataStack && window.Alpine.initTree(target)
     }
 
     document.addEventListener('turbo:render', renderCallback)

@@ -16,29 +16,8 @@ describe('morphing', () => {
     cy.get('span').should('contain', 'abc')
 
     // Mock refresh response
-    const refreshResponse = `
-      <body>
-        <div x-data="{foo: 'xyz'}">
-          <span x-text="foo"></span>
-          <p x-show="foo === 'success'" x-cloak>I'm hidden</p>
-          <em x-ignore x-show="foo === 'success'" x-cloak>I'm always visible</em>
-          <button @click="foo = 'success'">Change Text</button>
-
-          <template x-teleport="#sub-context">
-            <div id="teleported" x-show="foo === 'success'">Teleported into gray box</div>
-          </template>
-
-          <div id="sub-context" x-data="{list: ['1', '2', '3']}" style="background-color: lightgray;">
-          <ul style="border: black 1;">
-            <template x-for="i in 3">
-              <li x-text="i"></li>
-            </template>
-          </ul>
-        </div>
-      </body>`
     cy.intercept('/tests/res/turbo/morph/initialization/index.html', {
-      statusCode: 200,
-      body: refreshResponse
+      fixture: 'morph/initialization.html'
     }).as('Refresh')
 
     // Kickstart the morph
@@ -57,23 +36,9 @@ describe('morphing', () => {
   it('should maintain interactivity after morphing', () => {
     cy.visit('/tests/res/turbo/morph/interactivity/index.html')
 
-    const refreshResponse = `
-      <body>
-        <div x-data="{foo: 'xyz'}">
-          <span x-text="foo"></span>
-          <p x-show="foo === 'success'" x-cloak>I'm hidden at first</p>
-          <template x-teleport="#sub-context">
-            <div id="teleported" x-show="foo === 'success'">Teleported into gray box</div>
-          </template>
-
-          <button @click="foo = 'success'">Change Text</button>
-
-          <div id="sub-context"></div>
-        </div
-      </body>`
+    // Mock refresh response
     cy.intercept('/tests/res/turbo/morph/interactivity/index.html', {
-      statusCode: 200,
-      body: refreshResponse
+      fixture: 'morph/interactivity.html'
     }).as('Refresh')
 
     // Kickstart the morph
@@ -92,9 +57,8 @@ describe('morphing', () => {
   })
 
   it('should initialize after a Turbo Frame morph', () => {
-    cy.intercept('/frame', {
-      body: '<turbo-frame id="frame"><p x-show="shown">Refreshed</p></turbo-frame>'
-    }).as('FrameRefresh')
+    const body = '<turbo-frame id="frame"><p x-show="shown">Refreshed</p></turbo-frame>'
+    cy.intercept('/frame', { body }).as('FrameRefresh')
 
     cy.visit('/tests/res/turbo/morph/frame/index.html')
 

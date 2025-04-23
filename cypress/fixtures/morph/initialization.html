@@ -5,18 +5,23 @@
     <script src="//unpkg.com/alpinejs" defer></script>
     <meta name="turbo-refresh-method" content="morph">
   </head>
-
   <body>
-    <div id="main" x-data="{foo: 'abc'}">
+    <div id="main" x-data="{foo: 'xyz'}">
       <span x-text="foo"></span>
-      <p x-show="foo === 'success'" x-cloak>I'm hidden at first</p>
+      <p x-show="foo === 'success'" x-cloak>I'm hidden</p>
       <em x-ignore x-show="foo === 'success'" x-cloak>I'm always visible</em>
+      <button @click="foo = 'success'">Change Text</button>
 
-      <ol>
-        <template x-for="i in 2">
+      <template x-teleport="#sub-context">
+        <div id="teleported" x-show="foo === 'success'">Teleported into gray box</div>
+      </template>
+
+      <div id="sub-context" x-data style="background-color: lightgray;">
+      <ul>
+        <template x-for="i in 3">
           <li x-text="i"></li>
         </template>
-      </ol>
+      </ul>
     </div>
 
     <form method="post" action="/morph">
