@@ -7,9 +7,12 @@
   </head>
 
   <body>
-    <form method="post" action="http://localhost:8080/stream">
-      <input type="submit">
-    </form>
-  </body>
+    <div x-data="{shown: false}">
+      <turbo-frame x-show="shown" id="frame" refresh="morph" src="/frame" loading="lazy">
+        <p>Initial Content</p>
+      </turbo-frame>
 
+      <button @click="shown = true">Start Loading Frame</button>
+    </div>
+  </body>
 </html>

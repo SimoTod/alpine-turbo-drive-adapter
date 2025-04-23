@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo/dist/turbo.es2017-umd.min.js"></script>
+    <script src="/dist/alpine-turbo-drive-adapter.js" defer></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <meta name="turbo-refresh-method" content="morph">
+  </head>
+
+  <body>
+    <div x-data="{foo: 'abc'}">
+      <span x-text="foo"></span>
+      <p x-show="foo === 'success'" x-cloak>I'm hidden at first</p>
+      <em x-ignore x-show="foo === 'success'" x-cloak>I'm always visible</em>
+
+      <ol x-data="{list: ['8', '9']}">
+        <template x-for="i in 2">
+          <li x-text="i"></li>
+        </template>
+      </ol>
+    </div>
+
+    <form method="post" action="/morph">
+      <input type="submit">
+    </form>
+  </body>
+</html>

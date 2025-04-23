@@ -13,10 +13,12 @@ export default class Bridge {
     })
 
     this.configureEventHandlers()
+    this.monkeyPatchDomSetAttributeToAllowAtSymbols()
   }
 
   configureEventHandlers () {
     const renderCallback = (event) => {
+      if (event.detail.renderMethod === 'morph') return
       if (document.documentElement.hasAttribute('data-turbo-preview')) {
         return
       }
@@ -33,33 +35,14 @@ export default class Bridge {
       })
     }
 
-    const morphCallback = (event) => {
-      renderCallback(event)
-
-      window.Alpine.mutateDom(() => {
-        const element = event.detail.currentElement
-
-        element?.querySelectorAll('[x-data]')?.forEach(el => {
-          window.Alpine.destroyTree(el)
-          window.Alpine.initTree(el, window.Alpine.walk)
-        })
-      })
-    }
-
     const beforeRenderCallback = (event) => {
-      processAlpineElements(event.detail.newBody)
-    }
+      if (event.detail.renderMethod === 'morph') return
 
-    const beforeMorphCallback = (event) => {
-      processAlpineElements(event.detail.newElement)
-    }
-
-    const processAlpineElements = (element) => {
       window.Alpine.mutateDom(() => {
-        if (!element || document.documentElement.hasAttribute('data-turbo-preview')) {
+        if (document.documentElement.hasAttribute('data-turbo-preview')) {
           return
         }
-        element.querySelectorAll('[data-alpine-generated-me],[x-cloak]').forEach((el) => {
+        event.detail.newBody.querySelectorAll('[data-alpine-generated-me],[x-cloak]').forEach((el) => {
           if (el.hasAttribute('x-cloak')) {
             el.setAttribute('data-alpine-was-cloaked', el.getAttribute('x-cloak') ?? '')
           }
@@ -107,11 +90,38 @@ export default class Bridge {
       })
     }
 
+    // This tricks Alpine into reinitializing a already-initialized
+    // tree, allowing us to avoid destroying the tree first.
+    const beforeMorphElementCallback = ({ target }) => delete target._x_marker
+
+    const morphElementCallback = ({ target }) => {
+      target._x_dataStack && window.Alpine.initTree(target)
+    }
+
     document.addEventListener('turbo:render', renderCallback)
     document.addEventListener('turbo:before-render', beforeRenderCallback)
     document.addEventListener('turbo:before-cache', beforeCacheCallback)
 
-    document.addEventListener('turbo:morph', morphCallback)
-    document.addEventListener('turbo:before-morph-element', beforeMorphCallback)
+    document.addEventListener('turbo:before-morph-element', beforeMorphElementCallback)
+    document.addEventListener('turbo:morph-element', morphElementCallback)
+  }
+
+  // Taken from https://github.com/alpinejs/alpine/blob/e363181057b3e71e5c03d2b88db576d5094be1c8/packages/morph/src/morph.js#L493
+  // Turbo/Idiomorph uses Element.setAttribute to morph attributes, which doesn't allow "@" symbols
+  monkeyPatchDomSetAttributeToAllowAtSymbols () {
+    const original = Element.prototype.setAttribute
+    const hostDiv = document.createElement('div')
+
+    Element.prototype.setAttribute = function newSetAttribute (name, value) {
+      if (!name.includes('@')) {
+        return original.call(this, name, value)
+      }
+
+      hostDiv.innerHTML = `<span ${name}="${value}"></span>`
+
+      const attr = hostDiv.firstElementChild.getAttributeNode(name)
+      hostDiv.firstElementChild.removeAttributeNode(attr)
+      this.setAttributeNode(attr)
+    }
   }
 }
