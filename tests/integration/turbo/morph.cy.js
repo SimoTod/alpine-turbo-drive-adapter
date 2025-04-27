@@ -17,7 +17,7 @@ describe('morphing', () => {
 
     // Mock refresh response
     cy.intercept('/tests/res/turbo/morph/initialization/index.html', {
-      fixture: 'morph/initialization.html'
+      fixture: 'morph/initialization/morphed.html'
     }).as('Refresh')
 
     // Kickstart the morph
@@ -38,7 +38,7 @@ describe('morphing', () => {
 
     // Mock refresh response
     cy.intercept('/tests/res/turbo/morph/interactivity/index.html', {
-      fixture: 'morph/interactivity.html'
+      fixture: 'morph/interactivity/morphed.html'
     }).as('Refresh')
 
     // Kickstart the morph

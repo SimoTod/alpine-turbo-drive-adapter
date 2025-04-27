@@ -5,6 +5,7 @@ module.exports = defineConfig({
   e2e: {
     setupNodeEvents (on, config) {},
     supportFile: 'tests/bootstrap.js',
-    specPattern: 'tests/integration/**/*.cy.{js,jsx,ts,tsx}'
+    specPattern: 'tests/integration/**/*.cy.{js,jsx,ts,tsx}',
+    fixturesFolder: 'tests/res/turbo'
   }
 })
