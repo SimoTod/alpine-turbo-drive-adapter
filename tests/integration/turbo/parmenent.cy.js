@@ -1,6 +1,6 @@
 /* global describe, it, cy, expect */
 
-describe('data-turbolinks-permanent elements', () => {
+describe('data-turbo-permanent elements', () => {
   it('keep the state when navigating to a new page', () => {
     cy.visit('/tests/res/turbo/permanent/index.html')
 

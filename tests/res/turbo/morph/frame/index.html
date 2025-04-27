@@ -4,10 +4,15 @@
     <script src="/dist/alpine-turbo-drive-adapter.js" defer></script>
     <script src="//unpkg.com/alpinejs" defer></script>
     <meta name="turbo-refresh-method" content="morph">
-    <meta name="turbo-refresh-scroll" content="preserve">
   </head>
 
   <body>
-  </body>
+    <div x-data="{shown: false}">
+      <turbo-frame x-show="shown" id="frame" refresh="morph" src="/frame" loading="lazy">
+        <p>Initial Content</p>
+      </turbo-frame>
 
+      <button @click="shown = true">Start Loading Frame</button>
+    </div>
+  </body>
 </html>

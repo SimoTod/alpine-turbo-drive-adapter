@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo/dist/turbo.es2017-umd.min.js"></script>
+    <script src="/dist/alpine-turbo-drive-adapter.js" defer></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <meta name="turbo-refresh-method" content="morph">
+  </head>
+
+  <body>
+    <div x-data="{foo: 'xyz'}">
+      <span x-text="foo"></span>
+      <p x-show="foo === 'success'" x-cloak>I'm hidden at first</p>
+      <template x-teleport="#sub-context">
+        <div id="teleported" x-show="foo === 'success'">Teleported into gray box</div>
+      </template>
+
+      <button @click="foo = 'success'">Change Text</button>
+
+      <div id="sub-context"></div>
+    </div>
+  </body>
+</html>

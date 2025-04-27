@@ -35,10 +35,13 @@ class Bridge {
       });
     });
     this.configureEventHandlers();
+    this.monkeyPatchDomSetAttributeToAllowAtSymbols();
   }
 
   configureEventHandlers() {
     var renderCallback = event => {
+      if (event.detail.renderMethod === 'morph') return;
+
       if (document.documentElement.hasAttribute('data-turbo-preview')) {
         return;
       }
@@ -56,6 +59,7 @@ class Bridge {
     };
 
     var beforeRenderCallback = event => {
+      if (event.detail.renderMethod === 'morph') return;
       window.Alpine.mutateDom(() => {
         if (document.documentElement.hasAttribute('data-turbo-preview')) {
           return;
@@ -112,11 +116,58 @@ class Bridge {
           });
         });
       });
+    }; // This tricks Alpine into reinitializing a already-initialized
+    // tree, allowing us to avoid destroying the tree first.
+
+
+    var beforeMorphElementCallback = _ref => {
+      var {
+        target,
+        detail: {
+          newElement
+        }
+      } = _ref;
+
+      if (!newElement && target._x_dataStack) {
+        return window.Alpine.destroyTree(target);
+      }
+
+      delete target._x_marker;
+    };
+
+    var morphElementCallback = _ref2 => {
+      var {
+        target,
+        detail: {
+          newElement
+        }
+      } = _ref2;
+      newElement && target._x_dataStack && window.Alpine.initTree(target);
     };
 
     document.addEventListener('turbo:render', renderCallback);
     document.addEventListener('turbo:before-render', beforeRenderCallback);
     document.addEventListener('turbo:before-cache', beforeCacheCallback);
+    document.addEventListener('turbo:before-morph-element', beforeMorphElementCallback);
+    document.addEventListener('turbo:morph-element', morphElementCallback);
+  } // Taken from https://github.com/alpinejs/alpine/blob/e363181057b3e71e5c03d2b88db576d5094be1c8/packages/morph/src/morph.js#L493
+  // Turbo/Idiomorph uses Element.setAttribute to morph attributes, which doesn't allow "@" symbols
+
+
+  monkeyPatchDomSetAttributeToAllowAtSymbols() {
+    var original = Element.prototype.setAttribute;
+    var hostDiv = document.createElement('div');
+
+    Element.prototype.setAttribute = function newSetAttribute(name, value) {
+      if (!name.includes('@')) {
+        return original.call(this, name, value);
+      }
+
+      hostDiv.innerHTML = "<span ".concat(name, "=\"").concat(value, "\"></span>");
+      var attr = hostDiv.firstElementChild.getAttributeNode(name);
+      hostDiv.firstElementChild.removeAttributeNode(attr);
+      this.setAttributeNode(attr);
+    };
   }
 
 }
