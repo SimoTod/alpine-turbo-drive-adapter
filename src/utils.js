@@ -1,12 +1,12 @@
 export function isValidVersion (required, current) {
-  const requiredArray = required.split('.')
-  const currentArray = current.split('.')
+  const requiredArray = required.split('.').map(Number)
+  const currentArray = current.split('.').map(Number)
+  
   for (let i = 0; i < requiredArray.length; i++) {
-    if (currentArray[i] && currentArray[i] > requiredArray[i]) {
-      return true
-    }
+    if (currentArray[i] > requiredArray[i]) return true
+    if (currentArray[i] < requiredArray[i]) return false
   }
-  return currentArray[requiredArray.length - 1] === requiredArray[requiredArray.length - 1]
+  return true
 }
 
 export function dispatch (el, name, detail = {}) {
